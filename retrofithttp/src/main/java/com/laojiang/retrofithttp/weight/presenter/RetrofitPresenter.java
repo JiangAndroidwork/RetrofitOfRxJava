@@ -17,17 +17,16 @@ import retrofit2.Retrofit;
 
 public class RetrofitPresenter implements RPInterface, RetrofitCallBackInterface {
     private String url;
-    private AlertDialog dialog;
     private PBRViewInterface uiInterface;
     private RetrofitHttp retrofitHttp = new RetrofitHttp();
     private Context context;
-
-    public RetrofitPresenter(Context context,String url, PBRViewInterface uiInterface, AlertDialog dialog){
+    private boolean isCache;
+    public RetrofitPresenter(boolean isCache,Context context,String url, PBRViewInterface uiInterface){
         this.context = context;
         this.context = context;
         this.url = url;
         this.uiInterface = uiInterface;
-        this.dialog = dialog;
+        this.isCache = isCache;
     }
     /**
      * 获取数据
@@ -35,11 +34,11 @@ public class RetrofitPresenter implements RPInterface, RetrofitCallBackInterface
     @Override
     public void getData() {
         uiInterface.showProgressBar();
-        retrofitHttp.getHttpData(context,this,url);
+        retrofitHttp.getHttpData(isCache,context,this,url);
     }
 
     @Override
     public void setCallBackService(Retrofit backService) {
-        uiInterface.setData(backService,dialog);
+        uiInterface.setData(backService);
     }
 }

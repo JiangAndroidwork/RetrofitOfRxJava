@@ -1,7 +1,5 @@
 package com.laojiang.retrofithttp.weight.ui;
 
-import android.app.AlertDialog;
-
 import retrofit2.Retrofit;
 
 /**
@@ -10,5 +8,5 @@ import retrofit2.Retrofit;
  */
 
 public interface RetrofitOfRxJavaCallBack {
-    void callBack(Retrofit retrofit, AlertDialog dialog);
+    void callBack(Retrofit retrofit);
 }

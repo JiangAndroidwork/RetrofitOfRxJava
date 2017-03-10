@@ -1,7 +1,5 @@
 package com.laojiang.retrofithttp.weight.ui;
 
-import android.app.AlertDialog;
-
 import retrofit2.Retrofit;
 
 
@@ -11,7 +9,8 @@ import retrofit2.Retrofit;
  */
 
 public interface PBRViewInterface  {
+    void setStart(boolean isCache);
     void showProgressBar();
     void disMissProgressBar();
-    void setData(Retrofit backService, AlertDialog dialog);
+    void setData(Retrofit backService);
 }

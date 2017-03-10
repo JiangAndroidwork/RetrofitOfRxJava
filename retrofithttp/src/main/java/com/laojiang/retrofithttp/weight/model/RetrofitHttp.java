@@ -27,19 +27,23 @@ public class RetrofitHttp implements RHInterface{
     private static final long DEFAULT_TIMEOUT = 5;
 
     @Override
-    public void getHttpData(final Context context, RetrofitCallBackInterface backInterface, String url) {
+    public void getHttpData(boolean isCache,final Context context, RetrofitCallBackInterface backInterface, String url) {
         this.mContext = context;
         File httpCacheDirectory = new File(context.getCacheDir(), "responses");
         int cacheSize = 10 * 1024 * 1024; // 10 MiB
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
 
         //手动创建一个OkHttpClient并设置超时时间
-        OkHttpClient httpClientBuilder = new OkHttpClient.Builder()
-                .addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR)
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .cache(cache).build();
+
+        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+                if(isCache){
+                    httpClientBuilder.addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+                    httpClientBuilder.cache(cache);
+                }
+                httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .build();
         Retrofit retrofit = new Retrofit.Builder()
-                .client(httpClientBuilder)
+                .client(httpClientBuilder.build())
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

@@ -21,16 +21,86 @@ import retrofit2.Retrofit;
 public  class ProgressBarOfRetrofit  implements PBRViewInterface {
     private  ProgressBar mProgress;
     private  AlertDialog mDownloadDialog;
+
+    public AlertDialog getmDownloadDialog() {
+        return mDownloadDialog;
+    }
+
     private Context context;
     private RetrofitOfRxJavaCallBack callBack;
 private String url;
-    private final RetrofitPresenter retrofitPresenter;
+    private ProgressBarCancel progressBarCancel;
+    private boolean isCache;//是否缓存
+    private static ProgressBarOfRetrofit progressBarOfRetrofit;
 
-    public ProgressBarOfRetrofit(Context context, String url, RetrofitOfRxJavaCallBack callBack) {
-        this.callBack = callBack;
-        this.url = url;
+    private ProgressBarOfRetrofit(){
+
+    }
+    private   static class SingleFactory{
+        public  static ProgressBarOfRetrofit progressBarOfRetrofit = new ProgressBarOfRetrofit();
+
+    }
+
+    private void setContext(Context context) {
         this.context = context;
-        retrofitPresenter = new RetrofitPresenter(context,url,this,mDownloadDialog);
+    }
+
+    private void setCallBack(RetrofitOfRxJavaCallBack callBack) {
+        this.callBack = callBack;
+    }
+
+    private void setUrl(String url) {
+        this.url = url;
+    }
+
+    private void setCache(boolean cache) {
+        isCache = cache;
+    }
+
+    public static ProgressBarOfRetrofit getInstance(Context context,String url, RetrofitOfRxJavaCallBack callBack){
+
+        progressBarOfRetrofit = SingleFactory.progressBarOfRetrofit;
+        progressBarOfRetrofit.setCallBack(callBack);
+        progressBarOfRetrofit.setUrl(url);
+        progressBarOfRetrofit.setContext(context);
+
+        return progressBarOfRetrofit;
+    }
+
+public static ProgressBarOfRetrofit getInstance(){
+    if (progressBarOfRetrofit!=null) {
+        return progressBarOfRetrofit;
+    }
+    return null;
+}
+//    public ProgressBarOfRetrofit(Context context, String url, RetrofitOfRxJavaCallBack callBack) {
+//        this.callBack = callBack;
+//        this.url = url;
+//        this.context = context;
+//        retrofitPresenter = new RetrofitPresenter(true,context,url,this,mDownloadDialog);
+//        retrofitPresenter.getData();
+//        this.isCache =true;
+//    }
+
+//    /**
+//     *
+//     * @param context 上下文
+//     * @param url  地址
+//     * @param callBack 回调retrofit
+//     * @param isCache  是否缓存
+//     */
+//    public ProgressBarOfRetrofit(Context context, String url, RetrofitOfRxJavaCallBack callBack, boolean isCache) {
+//        this.callBack = callBack;
+//        this.url = url;
+//        this.context = context;
+//        retrofitPresenter = new RetrofitPresenter(isCache,context,url,this,mDownloadDialog);
+//        retrofitPresenter.getData();
+//        this.isCache = isCache;
+//    }
+
+    @Override
+    public void setStart(boolean isCache) {
+        RetrofitPresenter retrofitPresenter = new RetrofitPresenter(isCache, context, progressBarOfRetrofit.url, this);
         retrofitPresenter.getData();
     }
 
@@ -51,7 +121,6 @@ private String url;
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
 
-
             }
         });
         mDownloadDialog = builder.create();
@@ -66,12 +135,13 @@ private String url;
     public void disMissProgressBar() {
         if (mDownloadDialog!=null){
             mDownloadDialog.dismiss();
+            mDownloadDialog=null;
         }
     }
 
     @Override
-    public void setData(Retrofit backService, AlertDialog dialog) {
-            callBack.callBack(backService,mDownloadDialog);
+    public void setData(Retrofit backService) {
+            callBack.callBack(backService);
     }
 
 

@@ -8,5 +8,5 @@ import android.content.Context;
  */
 
 public interface RHInterface {
-    void getHttpData(Context context, RetrofitCallBackInterface backInterface, String url);
+    void getHttpData(boolean isCache,Context context, RetrofitCallBackInterface backInterface, String url);
 }
