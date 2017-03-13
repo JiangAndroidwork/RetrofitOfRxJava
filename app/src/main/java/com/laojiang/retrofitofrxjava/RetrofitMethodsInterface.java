@@ -13,7 +13,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * 类介绍（必填）：
+ * 类介绍（必填）：service接口Retrofit
  * Created by Jiang on 2017/3/9 10:15.
  */
 

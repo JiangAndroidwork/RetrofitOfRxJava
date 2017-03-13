@@ -21,6 +21,8 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final String STR_URL = "http://.....";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * c37d4e1edf827e851d8aa9e4a7ff3059
-     * "http://cloud.bjhj.com.cn/cloudapi/parents/"
+     *
      *
      * https://api.douban.com/v2/movie/
      *
-     * http://cloud.bjhj.com.cn/cloudapi/teacher/
+     *
      */
     private void init() {
 
-        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this, "http://cloud.bjhj.com.cn/cloudapi/teacher/",new RetrofitOfRxJavaCallBack() {
+        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,STR_URL,new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitMethodsInterface.class)
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
      ss.setStart(false);
 
-    }
+                                    }
 
 
 
