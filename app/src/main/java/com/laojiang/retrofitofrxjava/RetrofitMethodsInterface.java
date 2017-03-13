@@ -13,4 +13,6 @@ import retrofit2.http.Query;
 public interface RetrofitMethodsInterface  {
     @GET("getGradeExams")
     Flowable<TestBean> getRetrofitData(@Query("accessToken") String accessToken);
+    @GET("top250")
+    Flowable<TestHttp> getRetrofitData(@Query("start") int start,@Query("count") int count);
 }

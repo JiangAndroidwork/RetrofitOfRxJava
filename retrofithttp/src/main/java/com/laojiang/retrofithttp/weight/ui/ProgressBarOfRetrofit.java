@@ -106,6 +106,10 @@ public static ProgressBarOfRetrofit getInstance(){
 
     @Override
     public void showProgressBar() {
+        if (mDownloadDialog!=null){
+            mDownloadDialog.dismiss();
+            mDownloadDialog=null;
+        }
         // 构造软件下载对话框
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(R.string.soft_updating);

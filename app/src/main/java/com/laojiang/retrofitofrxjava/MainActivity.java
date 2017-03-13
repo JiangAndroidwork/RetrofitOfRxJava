@@ -6,7 +6,9 @@ import android.util.Log;
 
 import com.laojiang.retrofithttp.weight.ui.ProgressBarOfRetrofit;
 import com.laojiang.retrofithttp.weight.ui.RetrofitOfRxJavaCallBack;
-import com.laojiang.retrofithttp.weight.weight.ApiSubscriber;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
 
 import java.util.concurrent.TimeUnit;
 
@@ -31,24 +33,32 @@ public class MainActivity extends AppCompatActivity {
      */
     private void init() {
 
-        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this, "http://cloud.bjhj.com.cn/cloudapi/parents/",new RetrofitOfRxJavaCallBack() {
+        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this, "https://api.douban.com/v2/movie/",new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitMethodsInterface.class)
-                        .getRetrofitData("c37d4e1edf827e851d8aa9e4a7ff3059")
+                        .getRetrofitData(0,10)
                         .delay(5, TimeUnit.SECONDS)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new ApiSubscriber<TestBean>() {
+                        .subscribe(new Subscriber<TestHttp>() {
                             @Override
-                            protected void onError(String msg) {
-                                Log.i("错误==",msg.toString());
+                            public void onSubscribe(Subscription s) {
+
                             }
 
                             @Override
+                            public void onNext(TestHttp testHttp) {
+                            Log.i("得出的结果==",testHttp.getTitle());
+                            }
 
-                            protected void onSuceess(TestBean testBean) {
-                                Log.i("输出数据==",testBean.toString());
+                            @Override
+                            public void onError(Throwable t) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
 
                             }
                         });
