@@ -1,22 +1,17 @@
-package com.laojiang.retrofitofrxjava;
+package com.laojiang.retrofitofrxjava.bean;
 
-
-import java.util.List;
 
 import com.laojiang.retrofithttp.weight.bean.BaseReponse;
+
+import java.util.List;
 
 /**
  * 类介绍（必填）：
  * Created by Jiang on 2017/3/9 10:21.
  */
 
-public class TestBean extends BaseReponse {
-    @Override
-    public String toString() {
-        return "TestBean{" +
-                "result=" + result +
-                '}';
-    }
+public class TestBean extends BaseReponse<List<TestBean.ResultEntity>> {
+
 
     private List<ResultEntity> result;
 

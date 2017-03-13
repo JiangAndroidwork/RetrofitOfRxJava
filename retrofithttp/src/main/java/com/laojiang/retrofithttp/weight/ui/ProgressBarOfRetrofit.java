@@ -73,30 +73,6 @@ public static ProgressBarOfRetrofit getInstance(){
     }
     return null;
 }
-//    public ProgressBarOfRetrofit(Context context, String url, RetrofitOfRxJavaCallBack callBack) {
-//        this.callBack = callBack;
-//        this.url = url;
-//        this.context = context;
-//        retrofitPresenter = new RetrofitPresenter(true,context,url,this,mDownloadDialog);
-//        retrofitPresenter.getData();
-//        this.isCache =true;
-//    }
-
-//    /**
-//     *
-//     * @param context 上下文
-//     * @param url  地址
-//     * @param callBack 回调retrofit
-//     * @param isCache  是否缓存
-//     */
-//    public ProgressBarOfRetrofit(Context context, String url, RetrofitOfRxJavaCallBack callBack, boolean isCache) {
-//        this.callBack = callBack;
-//        this.url = url;
-//        this.context = context;
-//        retrofitPresenter = new RetrofitPresenter(isCache,context,url,this,mDownloadDialog);
-//        retrofitPresenter.getData();
-//        this.isCache = isCache;
-//    }
 
     @Override
     public void setStart(boolean isCache) {

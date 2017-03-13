@@ -30,28 +30,31 @@ public class RetrofitHttp implements RHInterface{
     public void getHttpData(boolean isCache,final Context context, RetrofitCallBackInterface backInterface, String url) {
         this.mContext = context;
         File httpCacheDirectory = new File(context.getCacheDir(), "responses");
-        int cacheSize = 10 * 1024 * 1024; // 10 MiB
+        int cacheSize = 10 * 1024 * 1024; // 10 M
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
 
         //手动创建一个OkHttpClient并设置超时时间
 
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+        //判断是否设置缓存
                 if(isCache){
                     httpClientBuilder.addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR);
                     httpClientBuilder.cache(cache);
                 }
                 httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .build();
+        //Retrofit加载http
         Retrofit retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-
+    //回调接口
         backInterface.setCallBackService(retrofit);
 
     }
+
     Interceptor REWRITE_CACHE_CONTROL_INTERCEPTOR = chain -> {
 
         CacheControl.Builder cacheBuilder = new CacheControl.Builder();
@@ -74,7 +77,7 @@ public class RetrofitHttp implements RHInterface{
                     .header("Cache-Control", "public ,max-age=" + maxAge)
                     .build();
         } else {
-            int maxStale = 60 * 60 * 24 * 28; // tolerate 4-weeks stale
+            int maxStale = 60 * 60 * 24 * 28; //
             return originalResponse.newBuilder()
                     .removeHeader("Pragma")
                     .header("Cache-Control", "public, only-if-cached, max-stale=" + maxStale)

@@ -1,4 +1,4 @@
-package com.laojiang.retrofitofrxjava;
+package com.laojiang.retrofitofrxjava.bean;
 
 import java.util.List;
 

@@ -35,10 +35,27 @@ package com.laojiang.retrofithttp.weight.bean;
  }
  */
 
-public class BaseReponse {
+public class BaseReponse<T>{
+
+    @Override
+    public String toString() {
+        return "BaseReponse{" +
+                "code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
+    private T result;
+
+    public T getResult() {
+        return result;
+    }
+
+    public void setResult(T result) {
+        this.result = result;
+    }
+
     private String code;
     private String msg;
-
     public String getMsg() {
         return msg;
     }

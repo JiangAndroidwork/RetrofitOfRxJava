@@ -5,6 +5,13 @@ package com.laojiang.retrofithttp.weight.weight;
  * Created by Jiang on 2017/3/9 8:26.
  */
 public class ApiException extends RuntimeException {
+    @Override
+    public String toString() {
+        return "ApiException{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
 
     private int code;
     private String msg;
