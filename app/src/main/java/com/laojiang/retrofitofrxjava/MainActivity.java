@@ -37,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
      * http://cloud.bjhj.com.cn/cloudapi/teacher/
      */
     private void init() {
-
-        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this, "http://cloud.bjhj.com.cn/cloudapi/teacher/",new RetrofitOfRxJavaCallBack() {
+String url = "ssss";
+        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this, url,new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitMethodsInterface.class)
