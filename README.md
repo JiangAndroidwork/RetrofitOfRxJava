@@ -36,7 +36,7 @@ json固定格式超类,并根据code判断是否请求成功然后返回结果�
  @GET("getGradeExams")
  Flowable<TestBean> getRetrofitData(@Query("classId") int classId, @Query("accessToken") String accessToken);
  @GET("examGetMyInfo")
- Flowable<BaseReponse<List<GetInfo.ResultEntity>>> getExamGetMyInfo(@Query("accessToken") String accessToken);
+ Flowable<BaseReponseResult<List<GetInfo.ResultEntity>>> getExamGetMyInfo(@Query("accessToken") String accessToken);
  ``` 
 3,实现Http请求：
 ``` 
