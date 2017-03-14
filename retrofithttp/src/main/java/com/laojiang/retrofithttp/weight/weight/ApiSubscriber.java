@@ -88,39 +88,39 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
                 msg = String.format(Locale.CHINA, "出错了！错误代码：%d", ((ApiException) e).getCode());
             }
 
-            onError(msg);
+            onError(msg,code);
         } else if (e instanceof HttpException) {
 
             switch (httpException.code()) {
                 case HTTP_BAD_REQUEST:
-                    onError(MSG_BAD_REQUEST);
+                    onError(MSG_BAD_REQUEST,HTTP_BAD_REQUEST);
                 case HTTP_FORBIDDEN:
-                    onError(MSG_FORBIDDEN);
+                    onError(MSG_FORBIDDEN,HTTP_FORBIDDEN);
                 case HTTP_NOT_FOUND:
-                    onError(MSG_NOT_FOUND);
+                    onError(MSG_NOT_FOUND,HTTP_NOT_FOUND);
                 case HTTP_INTERNAL_SERVER_ERROR:
-                    onError(MSG_SERVER_ERROR);
+                    onError(MSG_SERVER_ERROR,HTTP_INTERNAL_SERVER_ERROR);
                     break;
                 case HTTP_TIMEOUT:
-                    onError(MSG_TIME_OUT);
+                    onError(MSG_TIME_OUT,HTTP_TIMEOUT);
                     break;
                 default:
-                    onError(MSG_NETWORK_ERROR);
+                    onError(MSG_NETWORK_ERROR,-1);
                     break;
             }
         } else if (e instanceof SocketTimeoutException) {
-            onError(MSG_TIME_OUT);
+            onError(MSG_TIME_OUT,-1);
         } else if (e instanceof ConnectException) {
-            onError(MSG_NETWORK_ERROR);
+            onError(MSG_NETWORK_ERROR,-2);
         } else if (e instanceof UnknownHostException) {
-            onError(MSG_NETWORK_CONNECTION_ERROR);
+            onError(MSG_NETWORK_CONNECTION_ERROR,-3);
         } else if (e instanceof SocketException) {
-            onError(MSG_SERVER_ERROR);
+            onError(MSG_SERVER_ERROR,-4);
         } else {
-            onError(MSG_UNKNOWN_ERROR);
+            onError(MSG_UNKNOWN_ERROR,-5);
         }
     }
 
-    protected abstract void onError(String msg);
+    protected abstract void onError(String msg,int code);
     protected abstract void onSuceess(T t);
 }

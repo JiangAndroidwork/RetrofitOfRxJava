@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new ApiSubscriber<TestHomeWork>() {
                             @Override
-                            protected void onError(String msg) {
+                            protected void onError(String msg,int code) {
                                 Log.i("错误==",msg.toString());
                             }
 
