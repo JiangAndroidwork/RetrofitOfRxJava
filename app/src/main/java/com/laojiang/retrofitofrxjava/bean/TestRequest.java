@@ -1,7 +1,7 @@
 package com.laojiang.retrofitofrxjava.bean;
 
 import com.google.gson.annotations.SerializedName;
-import com.laojiang.retrofithttp.weight.bean.BaseReponse;
+import com.laojiang.retrofithttp.weight.bean.BaseReponseResult;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Jiang on 2017/3/13 11:17.
  */
 
-public class TestRequest extends BaseReponse {
+public class TestRequest extends BaseReponseResult {
     @Override
     public String toString() {
         return "TestRequest{" +

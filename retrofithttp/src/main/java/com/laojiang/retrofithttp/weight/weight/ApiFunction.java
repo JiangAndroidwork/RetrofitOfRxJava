@@ -1,6 +1,6 @@
 package com.laojiang.retrofithttp.weight.weight;
 
-import com.laojiang.retrofithttp.weight.bean.BaseReponse;
+import com.laojiang.retrofithttp.weight.bean.BaseReponseResult;
 
 import io.reactivex.functions.Function;
 
@@ -9,9 +9,9 @@ import io.reactivex.functions.Function;
  * Created by Jiang on 2017/3/13 13:12.
  */
 
-public class ApiFunction<T> implements Function<BaseReponse<T>,T> {
+public class ApiFunction<T> implements Function<BaseReponseResult<T>,T> {
     @Override
-    public T apply(BaseReponse<T> tBaseReponse) throws Exception {
+    public T apply(BaseReponseResult<T> tBaseReponse) throws Exception {
         if (!tBaseReponse.getCode().equals("1")){
             throw new ApiException(Integer.parseInt(tBaseReponse.getCode()),tBaseReponse.getMsg());
         }

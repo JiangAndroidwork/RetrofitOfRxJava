@@ -37,6 +37,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
     private static final String MSG_NOT_FOUND = "访问的地址不存在";
     private static final String MSG_FORBIDDEN = "服务器拒绝请求";
     private static final String MSG_BAD_REQUEST = "请求参数错误";
+    private HttpException httpException;
 
 
     @Override
@@ -80,7 +81,8 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
             e = throwable;
             throwable = throwable.getCause();
         }
-
+        String message = e.getMessage();
+        Log.i("异常信息==",message);
         if (e instanceof ApiException) {
             ApiException e1 = (ApiException) e;
             Log.i("ApiException异常===",e1.toString());
@@ -92,7 +94,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
 
             onError(msg);
         } else if (e instanceof HttpException) {
-            HttpException httpException = (HttpException) e;
+
             switch (httpException.code()) {
                 case HTTP_BAD_REQUEST:
                     onError(MSG_BAD_REQUEST);
@@ -119,9 +121,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
         } else if (e instanceof SocketException) {
             onError(MSG_SERVER_ERROR);
         } else {
-            HttpException httpException = (HttpException) e;
-            String message = httpException.message();
-            onError(message);
+            onError(MSG_UNKNOWN_ERROR);
         }
     }
 

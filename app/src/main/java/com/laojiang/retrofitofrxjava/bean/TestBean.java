@@ -1,7 +1,7 @@
 package com.laojiang.retrofitofrxjava.bean;
 
 
-import com.laojiang.retrofithttp.weight.bean.BaseReponse;
+import com.laojiang.retrofithttp.weight.bean.BaseReponseResult;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Jiang on 2017/3/9 10:21.
  */
 
-public class TestBean extends BaseReponse<List<TestBean.ResultEntity>> {
+public class TestBean extends BaseReponseResult<List<TestBean.ResultEntity>> {
 
 
     private List<ResultEntity> result;
@@ -24,21 +24,6 @@ public class TestBean extends BaseReponse<List<TestBean.ResultEntity>> {
     }
 
     public static class ResultEntity {
-        @Override
-        public String toString() {
-            return "ResultEntity{" +
-                    "id=" + id +
-                    ", platId=" + platId +
-                    ", semesterId=" + semesterId +
-                    ", examname='" + examname + '\'' +
-                    ", state=" + state +
-                    ", istest=" + istest +
-                    ", issystem=" + issystem +
-                    ", schoolNo='" + schoolNo + '\'' +
-                    ", studentNum=" + studentNum +
-                    '}';
-        }
-
         /**
          * id : 10
          * platId : 12
