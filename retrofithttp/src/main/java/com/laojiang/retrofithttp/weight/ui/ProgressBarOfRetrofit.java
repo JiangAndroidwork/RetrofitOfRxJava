@@ -58,12 +58,17 @@ private String url;
     }
 
     public static ProgressBarOfRetrofit getInstance(Context context,String url, RetrofitOfRxJavaCallBack callBack){
+        if (progressBarOfRetrofit==null) {
+            synchronized (ProgressBarOfRetrofit.class) {
+                if (progressBarOfRetrofit == null) {
+                    progressBarOfRetrofit = SingleFactory.progressBarOfRetrofit;
+                }
+            }
 
-        progressBarOfRetrofit = SingleFactory.progressBarOfRetrofit;
+        }
         progressBarOfRetrofit.setCallBack(callBack);
         progressBarOfRetrofit.setUrl(url);
         progressBarOfRetrofit.setContext(context);
-
         return progressBarOfRetrofit;
     }
 

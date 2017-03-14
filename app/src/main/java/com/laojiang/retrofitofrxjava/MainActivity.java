@@ -19,7 +19,7 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String STR_URL = "http://cloud.bjhj.com.cn/cloudapi/parents/";
+    private static final String STR_URL = "http://cloud.bjhj.com.cn/cloudapi/teacher/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void init() {
 
-        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,"sss",new RetrofitOfRxJavaCallBack() {
+        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,STR_URL,new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitMethodsInterface.class)

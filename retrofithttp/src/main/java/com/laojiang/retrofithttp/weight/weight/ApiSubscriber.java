@@ -90,6 +90,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
 
             onError(msg,code);
         } else if (e instanceof HttpException) {
+            HttpException httpException = (HttpException) e;
 
             switch (httpException.code()) {
                 case HTTP_BAD_REQUEST:
