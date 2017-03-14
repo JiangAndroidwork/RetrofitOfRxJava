@@ -21,21 +21,22 @@ dependencies {
 	}
 ``` 
 
-注：本Demo针对的json格式：
+注：封装过程返回结果针对的json格式：
 {
   "code" : "1",
   "msg" : "",
   "result" : [{}]
 }
+如果想全部返回无需样式要求
 ##步骤：
-1,根据json格式利用GsonFormat插件生成基类，注意需要继承BaseReponse。BaseReponse是根据相应的
-json固定格式超类。
+1,根据json格式利用GsonFormat插件生成基类，注意如果想要封装过程，只返回结果需要继承BaseReponseResult。BaseReponseResult是根据相应的
+json固定格式超类,并根据code判断是否请求成功然后返回结果。（注：如果想要全部返回数据就不需要集成BaseReponseResult）
 2,根据请求参数和url编写Retrofit的service接口，如：
 ``` 
  @GET("getGradeExams")
  Flowable<TestBean> getRetrofitData(@Query("classId") int classId, @Query("accessToken") String accessToken);
  @GET("examGetMyInfo")
- Flowable<BaseReponse<List<GetInfo.ResultEntity>>> getExamGetMyInfo(@Query("accessToken") String accessToken);
+ Flowable<BaseReponseResult<List<GetInfo.ResultEntity>>> getExamGetMyInfo(@Query("accessToken") String accessToken);
  ``` 
 3,实现Http请求：
 ``` 
