@@ -1,7 +1,6 @@
 package com.laojiang.retrofithttp.weight.weight;
 
 import android.app.AlertDialog;
-import android.util.Log;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 import com.laojiang.retrofithttp.weight.ui.ProgressBarOfRetrofit;
@@ -81,11 +80,8 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
             e = throwable;
             throwable = throwable.getCause();
         }
-        String message = e.getMessage();
-        Log.i("异常信息==",message);
         if (e instanceof ApiException) {
             ApiException e1 = (ApiException) e;
-            Log.i("ApiException异常===",e1.toString());
             String msg = ((ApiException) e).getMsg();//msg
             int code = ((ApiException) e).getCode();//code
             if (msg == null || msg.isEmpty()) {

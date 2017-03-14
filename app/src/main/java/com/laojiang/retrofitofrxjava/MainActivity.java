@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * c37d4e1edf827e851d8aa9e4a7ff3059
-     *http://cloud.bjhj.com.cn/cloudapi/teacher/
+     *
      *9969171b881c7f74c32558e11b86936f
      * https://api.douban.com/v2/movie/
      *
@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void init() {
 
-        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,"http://cloud.bjhj.com.cn/cloudapi/teacher/",new RetrofitOfRxJavaCallBack() {
+        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,"sss",new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitMethodsInterface.class)
