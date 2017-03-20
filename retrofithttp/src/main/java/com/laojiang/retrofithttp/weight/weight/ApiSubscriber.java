@@ -80,6 +80,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
             e = throwable;
             throwable = throwable.getCause();
         }
+
         if (e instanceof ApiException) {
             ApiException e1 = (ApiException) e;
             String msg = ((ApiException) e).getMsg();//msg
@@ -117,8 +118,8 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
             onError(MSG_NETWORK_CONNECTION_ERROR,-3);
         } else if (e instanceof SocketException) {
             onError(MSG_SERVER_ERROR,-4);
-        } else {
-            onError(MSG_UNKNOWN_ERROR,-5);
+        } else if (e.getMessage()!=null){
+            onError(e.getMessage(),-5);
         }
     }
 

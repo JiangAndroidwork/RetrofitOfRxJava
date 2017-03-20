@@ -3,29 +3,79 @@ package com.laojiang.retrofitofrxjava;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.laojiang.retrofithttp.weight.ui.ProgressBarOfRetrofit;
 import com.laojiang.retrofithttp.weight.ui.RetrofitOfRxJavaCallBack;
+import com.laojiang.retrofithttp.weight.ui.pushfile.PushFileManage;
 import com.laojiang.retrofithttp.weight.weight.ApiSubscriber;
+import com.laojiang.retrofitofrxjava.bean.PushFileBean;
 import com.laojiang.retrofitofrxjava.bean.TestHomeWork;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 
 
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String STR_URL = "http://cloud.bjhj.com.cn/cloudapi/teacher/";
+    private static final String STR_URL = "http://ssss/cloudapi/teacher/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        init();
+        Button pushFIle = (Button) findViewById(R.id.push_file);
+        pushFIle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initPush();
+            }
+        });
+//        init();
+    }
+
+    /**
+     * 上传文件
+     */
+    private void initPush() {
+        final PushFileManage pushFileManage = new PushFileManage(this,new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"),"file","image/jpg");
+        final MultipartBody.Part part = pushFileManage.pushFileBackPart();
+
+        final RequestBody uid= RequestBody.create(MediaType.parse("text/plain"), "72");
+        final RequestBody key = RequestBody.create(MediaType.parse("text/plain"), "45ab2fbbdd5ac8aec951f219f33fb5cc");
+        ProgressBarOfRetrofit pBR = ProgressBarOfRetrofit.getInstance(this,
+                "http://sssss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
+                    @Override
+                    public void callBack(Retrofit retrofit) {
+                        retrofit.create(RetrofitMethodsInterface.class)
+                                .uploadImage(uid,key,part)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new ApiSubscriber<PushFileBean>() {
+                                    @Override
+                                    protected void onError(String msg, int code) {
+                                        Log.i("失败的信息==",msg);
+                                        pushFileManage.dissmissProgress();
+                                    }
+
+                                    @Override
+                                    protected void onSuceess(PushFileBean pushFileBean) {
+                                Log.i("输出信息==",pushFileBean.toString());
+                                    }
+                                });
+                    }
+                });
+        pBR.setProgressState(false);
+        pBR.setStart(false);
     }
 
     /**
@@ -61,11 +111,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        ss.setProgressState(false);
+        ss.setStart(false);
 
-     ss.setStart(false);
-
-                                    }
-
-
-
+        }
 }

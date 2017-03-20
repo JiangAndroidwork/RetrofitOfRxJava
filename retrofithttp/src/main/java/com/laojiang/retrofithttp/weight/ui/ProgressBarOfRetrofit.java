@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.laojiang.retrofithttp.R;
 import com.laojiang.retrofithttp.weight.presenter.RetrofitPresenter;
+import com.laojiang.retrofithttp.weight.weight.ApiException;
 
 import retrofit2.Retrofit;
 
@@ -21,6 +22,7 @@ import retrofit2.Retrofit;
 public  class ProgressBarOfRetrofit  implements PBRViewInterface {
     private  ProgressBar mProgress;
     private  AlertDialog mDownloadDialog;
+    private boolean isShowprogress = true;
 
     public AlertDialog getmDownloadDialog() {
         return mDownloadDialog;
@@ -58,6 +60,12 @@ private String url;
     }
 
     public static ProgressBarOfRetrofit getInstance(Context context,String url, RetrofitOfRxJavaCallBack callBack){
+        char c = url.charAt(url.length() - 1);
+
+        if (!(c+"").equals("/")){
+            throw new ApiException(-1,"路径必须以/结尾");
+
+        }
         if (progressBarOfRetrofit==null) {
             synchronized (ProgressBarOfRetrofit.class) {
                 if (progressBarOfRetrofit == null) {
@@ -129,5 +137,22 @@ public static ProgressBarOfRetrofit getInstance(){
             callBack.callBack(backService);
     }
 
+    /**
+     * 获取是否显示进度条的状态
+     * @return
+     */
+    @Override
+    public boolean isShowProgress() {
+        return isShowprogress;
+    }
+
+    /**
+     * 设置是否显示 进度条
+     * @param isShow
+     */
+    public void setProgressState(boolean isShow){
+        isShowprogress = isShow;
+
+    }
 
 }

@@ -13,4 +13,5 @@ public interface PBRViewInterface  {
     void showProgressBar();
     void disMissProgressBar();
     void setData(Retrofit backService);
+    boolean isShowProgress();
 }
