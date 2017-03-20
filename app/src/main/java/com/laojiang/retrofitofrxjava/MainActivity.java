@@ -27,7 +27,7 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final String STR_URL = "http://ssss/cloudapi/teacher/";
+    private static final String STR_URL = "http://sss/cloudapi/teacher/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         final RequestBody uid= RequestBody.create(MediaType.parse("text/plain"), "72");
         final RequestBody key = RequestBody.create(MediaType.parse("text/plain"), "45ab2fbbdd5ac8aec951f219f33fb5cc");
         ProgressBarOfRetrofit pBR = ProgressBarOfRetrofit.getInstance(this,
-                "http://sssss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
+                "http://sss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
                     @Override
                     public void callBack(Retrofit retrofit) {
                         retrofit.create(RetrofitMethodsInterface.class)
@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                                     @Override
                                     protected void onError(String msg, int code) {
                                         Log.i("失败的信息==",msg);
-                                        pushFileManage.dissmissProgress();
                                     }
 
                                     @Override
