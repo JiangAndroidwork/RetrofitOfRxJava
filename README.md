@@ -69,3 +69,46 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
 注意：new ApiFunction<T>()中的类型应该和service接口RetrofitMethodsInterface.class中的返回类型一致。
 ##不对结果进行封装返回全部
    只需要将.map（new ApiFunction<T>（））去掉并将service接口中的类型更改成GetInfo即可
+#带有进度条的文件上传
+##创建service接口
+```
+  public interface RetrofitMethodsInterface  {
+    /*上传文件*/
+    @Multipart
+    @POST("classalbumUpload")
+    Flowable<PushFileBean> uploadImage(@Part("albumId") RequestBody albumId, @Part("accessToken") RequestBody accessToken, @Part MultipartBody.Part file);
+}
+```
+##初始化带有进度条需要上传的文件参数
+```
+ final PushFileManage pushFileManage = new PushFileManage(this,new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"),"file","image/jpg");
+  final MultipartBody.Part part = pushFileManage.pushFileBackPart();
+```
+##获取方法
+```
+ final RequestBody uid= RequestBody.create(MediaType.parse("text/plain"), "72");
+        final RequestBody key = RequestBody.create(MediaType.parse("text/plain"), "45ab2fbbdd5ac8aec951f219f33fb5cc");
+        ProgressBarOfRetrofit pBR = ProgressBarOfRetrofit.getInstance(this,
+                "http://sss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
+                    @Override
+                    public void callBack(Retrofit retrofit) {
+                        retrofit.create(RetrofitMethodsInterface.class)
+                                .uploadImage(uid,key,part)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new ApiSubscriber<PushFileBean>() {
+                                    @Override
+                                    protected void onError(String msg, int code) {
+                                        Log.i("失败的信息==",msg);
+                                    }
+
+                                    @Override
+                                    protected void onSuceess(PushFileBean pushFileBean) {
+                                Log.i("输出信息==",pushFileBean.toString());
+                                    }
+                                });
+                    }
+                });
+        pBR.setProgressState(false);
+        pBR.setStart(false);
+```
