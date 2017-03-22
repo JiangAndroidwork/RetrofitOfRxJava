@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 "http://download.fir.im/v2/app/install/572eec6fe75e2d7a05000008?download_token=572bcb03dad2eed7c758670fd23b5ac4"};
 
 
-        finalDownFiles = new FinalDownFiles(this,downUrl[0], Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+
+        finalDownFiles = new FinalDownFiles(true,this,downUrl[0], Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+
                 "/test"+0 + ".apk",new FinalDownFileResult(){
             @Override
             public void onStop() {
