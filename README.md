@@ -17,7 +17,7 @@ allprojects {
 其次在mould的build.gradle中添加：
 ``` 
 dependencies {
-	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.2'
+	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.3'
 	}
 ``` 
 
