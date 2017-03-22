@@ -161,6 +161,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
 
     @Override
     public void onStart() {
+        if (tvState!=null)
         tvState.setText("开始");
 
         fileResult.onStart();
@@ -188,6 +189,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
     public void onPuase() {
         super.onPuase();
         fileResult.onPause();
+        if (tvState!=null)
         tvState.setText("暂停");
     }
 
