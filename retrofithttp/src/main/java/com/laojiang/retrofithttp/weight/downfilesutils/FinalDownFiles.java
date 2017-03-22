@@ -211,7 +211,6 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
             mProgress.setMax((int) countLength);
             mProgress.setProgress((int) readLength);
         }
-        Log.i("正在下载==",readLength+"");
     }
 
     /**
