@@ -14,4 +14,5 @@ public  class FinalDownFileResult {
     public  void onStart(){}
     public  void onPause(){}
     public void onStop(){}
+    public void onLoading(long readLength, long countLength){}
 }

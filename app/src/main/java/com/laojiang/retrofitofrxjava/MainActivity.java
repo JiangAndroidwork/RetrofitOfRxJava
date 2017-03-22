@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.textView);
         Button pushFIle = (Button) findViewById(R.id.push_file);
         Button downFile = (Button) findViewById(R.id.down_file);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         downFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

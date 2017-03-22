@@ -36,25 +36,51 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
     private FinalDownFileResult fileResult;//返回结果接口
     private TextView tvState;
 
-    public FinalDownFiles(Context context,String fileUrlStr,String outUrlStr,FinalDownFileResult fileResult) {
+    /**
+     * 构造方法
+     * @param isShow 是否显示弹窗
+     * @param context 上下文
+     * @param fileUrlStr 文件网络url
+     * @param outUrlStr  输出本地路径
+     * @param fileResult  回调结果
+     */
+    public FinalDownFiles(boolean isShow,Context context,String fileUrlStr,String outUrlStr,FinalDownFileResult fileResult) {
         this.fileResult = fileResult;
         this.fileUrlStr = fileUrlStr;
         this.outUrlStr = outUrlStr;
         this.context = context;
 
         // 构造软件下载对话框
-        initProgressBar(context);
+        if (isShow) {
+            initProgressBar(context);
+        }
         //初始化文件下载
         initManage();
 
     }
 
-    public FinalDownFiles(Context context, String outUrlStr, String fileUrlStr) {
+    /**
+     *
+     * @param isShow
+     * @param context
+     * @param outUrlStr
+     * @param fileUrlStr
+     */
+    public FinalDownFiles(boolean isShow,Context context, String outUrlStr, String fileUrlStr) {
         this.context = context;
         this.outUrlStr = outUrlStr;
         this.fileUrlStr = fileUrlStr;
+        // 构造软件下载对话框
+        if (isShow) {
+            initProgressBar(context);
+        }
+        //初始化文件下载
+        initManage();
     }
 
+    /**
+     * 初始化
+     */
     private void initManage() {
         manager = HttpDownManager.getInstance();
         //初始化信息
@@ -66,6 +92,10 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
         manager.startDown(downInfo);
     }
 
+    /**
+     * 初始化弹窗
+     * @param context
+     */
     private void initProgressBar(Context context) {
         if (mDownloadDialog!=null){
             mDownloadDialog.dismiss();
@@ -144,30 +174,44 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
 
     @Override
     public void updateProgress(long readLength, long countLength) {
+        fileResult.onLoading(readLength,countLength);
         mProgress.setMax((int) countLength);
         mProgress.setProgress((int) readLength);
         Log.i("正在下载==",readLength+"");
     }
 
+    /**
+     * 设置暂停
+     */
     @Override
     public void setPause() {
         manager.pause(downInfo);
-
     }
 
+    /**
+     * 设置停止
+     */
     @Override
     public void setStop() {
 manager.stopDown(downInfo);
 
     }
 
+    /**
+     * 全部停止
+     */
     @Override
     public void stopAll() {
         manager.stopAllDown();
     }
 
+    /**
+     * 删除
+     */
     @Override
     public void deleteDown() {
 manager.deleteDown(downInfo);
     }
+
+
 }
