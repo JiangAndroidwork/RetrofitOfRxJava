@@ -1,13 +1,13 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.manage;
+package com.laojiang.retrofithttp.weight.downfilesutils.manage;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import com.laojiang.retrofitofrxjava.downfilesutils.HttpService;
-import com.laojiang.retrofitofrxjava.downfilesutils.downfiles.ApiDownSubscriber;
-import com.laojiang.retrofitofrxjava.downfilesutils.downfiles.DownInfo;
-import com.laojiang.retrofitofrxjava.downfilesutils.downfiles.DownState;
-import com.laojiang.retrofitofrxjava.downfilesutils.downfiles.DownloadInterceptor;
-import com.laojiang.retrofitofrxjava.downfilesutils.exception.HttpTimeException;
-import com.laojiang.retrofitofrxjava.downfilesutils.exception.RetryWhenNetworkException;
+import com.laojiang.retrofithttp.weight.downfilesutils.HttpService;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.ApiDownSubscriber;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownState;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownloadInterceptor;
+import com.laojiang.retrofithttp.weight.downfilesutils.exception.HttpTimeException;
+import com.laojiang.retrofithttp.weight.downfilesutils.exception.RetryWhenNetworkException;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,8 +28,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
- * http下载处理类
- * Created by WZG on 2016/7/16.
+ *
+ * 类介绍（必填）：http下载处理类
+ * Created by Jiang on 2017/3/21 16:30.
  */
 public class HttpDownManager {
     /*记录下载数据*/
@@ -64,6 +65,7 @@ public class HttpDownManager {
      * 开始下载
      */
     public void startDown(final DownInfo info){
+
         /*正在下载不处理*/
         if(info==null||subMap.get(info.getUrl())!=null){
             return;

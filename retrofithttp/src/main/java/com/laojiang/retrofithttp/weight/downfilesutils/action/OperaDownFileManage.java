@@ -1,4 +1,4 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.action;
+package com.laojiang.retrofithttp.weight.downfilesutils.action;
 
 /**
  * 类介绍（必填）：
@@ -10,4 +10,5 @@ public interface OperaDownFileManage {
     void setStop();
     void stopAll();
     void deleteDown();
+    void setRestart();
 }

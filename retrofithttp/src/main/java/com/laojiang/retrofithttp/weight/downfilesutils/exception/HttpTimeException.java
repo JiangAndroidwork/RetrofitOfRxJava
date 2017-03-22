@@ -1,8 +1,9 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.exception;
+package com.laojiang.retrofithttp.weight.downfilesutils.exception;
 
 /**
- * 自定义错误信息，统一处理返回处理
- * Created by WZG on 2016/7/16.
+ *
+ *  类介绍（必填）：自定义错误信息，统一处理返回处理
+ * Created by Jiang on 2017/3/21 16:50.
  */
 public class HttpTimeException extends RuntimeException {
 

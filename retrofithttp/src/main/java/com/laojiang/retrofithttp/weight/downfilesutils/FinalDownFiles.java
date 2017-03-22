@@ -1,4 +1,4 @@
-package com.laojiang.retrofitofrxjava.downfilesutils;
+package com.laojiang.retrofithttp.weight.downfilesutils;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,14 +10,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.laojiang.retrofithttp.R;
+import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
+import com.laojiang.retrofithttp.weight.downfilesutils.action.OperaDownFileManage;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
+import com.laojiang.retrofithttp.weight.downfilesutils.manage.HttpDownManager;
 import com.laojiang.retrofithttp.weight.presenter.downfiles.HttpProgressOnNextListener;
-import com.laojiang.retrofitofrxjava.R;
-import com.laojiang.retrofitofrxjava.downfilesutils.action.FinalDownFileResult;
-import com.laojiang.retrofitofrxjava.downfilesutils.action.OperaDownFileManage;
-import com.laojiang.retrofitofrxjava.downfilesutils.downfiles.DownInfo;
-import com.laojiang.retrofitofrxjava.downfilesutils.manage.HttpDownManager;
 
 import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Field;
 
 
 /**
@@ -35,6 +37,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
     private ProgressBar mProgress;
     private FinalDownFileResult fileResult;//返回结果接口
     private TextView tvState;
+    private boolean isPause;
 
     /**
      * 构造方法
@@ -49,7 +52,6 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
         this.fileUrlStr = fileUrlStr;
         this.outUrlStr = outUrlStr;
         this.context = context;
-
         // 构造软件下载对话框
         if (isShow) {
             initProgressBar(context);
@@ -86,7 +88,13 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
         //初始化信息
         downInfo = new DownInfo(fileUrlStr);
         File outFile = new File(outUrlStr);
-       outFile.mkdirs();
+        if (!outFile.exists()){
+            try {
+                outFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         downInfo.setSavePath(outFile.getAbsolutePath());
         downInfo.setListener(this);
         manager.startDown(downInfo);
@@ -114,8 +122,29 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
         builder.setNegativeButton(R.string.soft_update_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+
+                try {//利用反射机制 控制 点击之后弹框是否关闭
+
+                    Field field = dialog.getClass().getSuperclass().getDeclaredField("mShowing");
+
+                    field.setAccessible(true);
+
+                    field.set(dialog,true);//true表示要关闭
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                }
                 manager.stopDown(downInfo);
+//                if (isPause){
+//                    Log.i("重新开始",downInfo.toString());
+//                    manager.startDown(downInfo);
+//                    isPause = false;
+//                }else {
+//                    manager.pause(downInfo);
+//                    isPause=true;
+//                }
             }
         });
 
@@ -132,7 +161,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
 
     @Override
     public void onStart() {
-
+        tvState.setText("开始");
 
         fileResult.onStart();
     }
@@ -211,6 +240,12 @@ manager.stopDown(downInfo);
     @Override
     public void deleteDown() {
 manager.deleteDown(downInfo);
+    }
+
+    @Override
+    public void setRestart() {
+        if (downInfo!=null)
+        manager.startDown(downInfo);
     }
 
 

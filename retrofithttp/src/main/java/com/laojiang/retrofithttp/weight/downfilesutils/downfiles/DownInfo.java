@@ -1,7 +1,7 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.downfiles;
+package com.laojiang.retrofithttp.weight.downfilesutils.downfiles;
 
 import com.laojiang.retrofithttp.weight.presenter.downfiles.HttpProgressOnNextListener;
-import com.laojiang.retrofitofrxjava.downfilesutils.HttpService;
+import com.laojiang.retrofithttp.weight.downfilesutils.HttpService;
 
 /**
  * 类介绍（必填）：下载信息

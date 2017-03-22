@@ -9,17 +9,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
+import com.laojiang.retrofithttp.weight.downfilesutils.HttpService;
+import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
+import com.laojiang.retrofithttp.weight.downfilesutils.manage.HttpDownManager;
 import com.laojiang.retrofithttp.weight.ui.ProgressBarOfRetrofit;
 import com.laojiang.retrofithttp.weight.ui.RetrofitOfRxJavaCallBack;
 import com.laojiang.retrofithttp.weight.ui.pushfile.PushFileManage;
 import com.laojiang.retrofithttp.weight.weight.ApiSubscriber;
 import com.laojiang.retrofitofrxjava.bean.PushFileBean;
 import com.laojiang.retrofitofrxjava.bean.TestHomeWork;
-import com.laojiang.retrofitofrxjava.downfilesutils.FinalDownFiles;
-import com.laojiang.retrofitofrxjava.downfilesutils.HttpService;
-import com.laojiang.retrofitofrxjava.downfilesutils.action.FinalDownFileResult;
-import com.laojiang.retrofitofrxjava.downfilesutils.downfiles.DownInfo;
-import com.laojiang.retrofitofrxjava.downfilesutils.manage.HttpDownManager;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        manager = HttpDownManager.getInstance();
-        manager2 = HttpDownManager.getInstance();
+
         textView = (TextView) findViewById(R.id.textView);
         Button pushFIle = (Button) findViewById(R.id.push_file);
         Button downFile = (Button) findViewById(R.id.down_file);
@@ -67,28 +66,65 @@ public class MainActivity extends AppCompatActivity {
                 initPush();
             }
         });
-
-
-
+//        init();
     }
 
 
 
     private void inidown() {
         String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk",
-                "http://download.fir.im/v2/app/install/572eec6fe75e2d7a05000008?download_token=572bcb03dad2eed7c758670fd23b5ac4"};
-
-
-        finalDownFiles = new FinalDownFiles(true,this,downUrl[0], Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+
-                "/test"+0 + ".apk",new FinalDownFileResult(){
+                "http://114.215.142.151/cloudfile/public/classfile/2017031713563149420/东京喰种01_20170317135631460.mp4"
+        ,"http://d.ltss8.com/t/wandoujia-juwan1_ad.apk"};
+        finalDownFiles = new FinalDownFiles(true,this,downUrl[1],
+                Environment.getExternalStorageDirectory() + "/bjhj/accessory/izaodao_app2.apk",new FinalDownFileResult(){
             @Override
-            public void onStop() {
+            public void onSuccess(DownInfo downInfo) {
+                super.onSuccess(downInfo);
+                Log.i("成功==",downInfo.toString());
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+                Log.i("完成==","./...");
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                Log.i("开始==","./...");
+            }
+
+            @Override
+            public void onPause() {
+                super.onPause();
+                Log.i("暂停==","./...");
+            }
+
+            @Override
+            public void onStop(){
                 super.onStop();
                 Log.i("结束了一切","是的没错");
+            }
+            @Override
+            public void onLoading(long readLength, long countLength) {
+                super.onLoading(readLength, countLength);
+                Log.i("下载过程==",countLength+"");
+            }
+
+            @Override
+            public void onErroe(Throwable e) {
+                super.onErroe(e);
+                Log.i("错误===",e.toString());
             }
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HttpDownManager.getInstance().stopAllDown();
+    }
 
     /**
      * 上传文件
@@ -100,10 +136,10 @@ public class MainActivity extends AppCompatActivity {
         final RequestBody uid= RequestBody.create(MediaType.parse("text/plain"), "72");
         final RequestBody key = RequestBody.create(MediaType.parse("text/plain"), "45ab2fbbdd5ac8aec951f219f33fb5cc");
         ProgressBarOfRetrofit pBR = ProgressBarOfRetrofit.getInstance(this,
-                "http://114.215.142.151/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
+                "http://sss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
                     @Override
                     public void callBack(Retrofit retrofit) {
-                        retrofit.create(HttpService.class)
+                        retrofit.create(RetrofitService.class)
                                 .uploadImage(uid,key,part)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -137,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,STR_URL,new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
-                retrofit.create(HttpService.class)
+                retrofit.create(RetrofitService.class)
                         .getHomeWork("9969171b881c7f74c32558e11b86936f")
                         .delay(5, TimeUnit.SECONDS)
 //                       .map(new ApiFunction<List<TestHomeWork.ResultEntity>>())

@@ -1,4 +1,4 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.downfiles;
+package com.laojiang.retrofithttp.weight.downfilesutils.downfiles;
 
 import com.laojiang.retrofithttp.weight.model.downfiles.DownloadProgressListener;
 import com.laojiang.retrofithttp.weight.presenter.downfiles.HttpProgressOnNextListener;
@@ -77,7 +77,7 @@ private Subscription subscription;
         }
         downInfo.setReadLength(read);
         if (mSubscriberOnNextListener.get() != null) {
-            /*接受进度消息，造成UI阻塞，如果不需要显示进度可去掉实现逻辑，减少压力*/
+           //不需要进度可以去掉，减少阻塞。
             Flowable.just(read).observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Consumer<Long>() {
                         @Override

@@ -1,4 +1,4 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.utils;
+package com.laojiang.retrofithttp.weight.downfilesutils.utils;
 
 import android.util.Log;
 
@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 /**
- * 类介绍（必填）：
+ * 类介绍（必填）：利用反射获取方法
  * Created by Jiang on 2017/3/22 8:22.
  */
 
@@ -29,13 +29,7 @@ public class ProgressBarBeanUtils {
         if (field == null)
 
             throw new IllegalArgumentException("Could not find field [" + fieldName + "] on target [" + object + "]");
-
-
-
         makeAccessible(field);
-
-
-
         try {
 
             field.set(object, value);

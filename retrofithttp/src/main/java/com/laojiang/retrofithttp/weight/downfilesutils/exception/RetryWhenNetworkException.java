@@ -1,4 +1,4 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.exception;
+package com.laojiang.retrofithttp.weight.downfilesutils.exception;
 
 import android.util.Log;
 
@@ -12,8 +12,8 @@ import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 
 /**
- * retry条件
- * Created by WZG on 2016/10/17.
+ * 类介绍（必填）：条件
+ * Created by Jiang on 2017/3/21 16:50.
  */
 public class RetryWhenNetworkException implements Function<Flowable<?extends Throwable>, Flowable<?>> {
 //    retry次数

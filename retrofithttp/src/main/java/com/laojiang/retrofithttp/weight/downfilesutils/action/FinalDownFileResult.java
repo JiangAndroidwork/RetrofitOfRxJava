@@ -1,6 +1,6 @@
-package com.laojiang.retrofitofrxjava.downfilesutils.action;
+package com.laojiang.retrofithttp.weight.downfilesutils.action;
 
-import com.laojiang.retrofitofrxjava.downfilesutils.downfiles.DownInfo;
+import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
 
 /**
  * 类介绍（必填）：

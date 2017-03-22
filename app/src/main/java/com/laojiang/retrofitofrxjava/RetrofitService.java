@@ -1,4 +1,4 @@
-package com.laojiang.retrofitofrxjava.downfilesutils;
+package com.laojiang.retrofitofrxjava;
 
 import com.laojiang.retrofithttp.weight.bean.BaseReponseResult;
 import com.laojiang.retrofitofrxjava.bean.GetInfo;
@@ -12,21 +12,18 @@ import java.util.List;
 import io.reactivex.Flowable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
-import retrofit2.http.Streaming;
-import retrofit2.http.Url;
 
 /**
- * 类介绍（必填）：service接口Retrofit
- * Created by Jiang on 2017/3/9 10:15.
+ * 类介绍（必填）：同意http请求接口文档
+ * Created by Jiang on 2017/3/22 14:58.
  */
-public interface HttpService {
+
+public interface RetrofitService {
     @GET("getGradeExams")
     Flowable<TestBean> getRetrofitDatas(@Query("accessToken") String accessToken);
     @GET("top250")
@@ -41,9 +38,4 @@ public interface HttpService {
     @Multipart
     @POST("classalbumUpload")
     Flowable<PushFileBean> uploadImage(@Part("albumId") RequestBody albumId, @Part("accessToken") RequestBody accessToken, @Part MultipartBody.Part file);
-    /*断点续传下载接口*/
-    @Streaming/*大文件需要加入这个判断，防止下载过程中写入到内存中*/
-    @GET
-    Flowable<ResponseBody> download(@Header("RANGE") String start, @Url String url);
-
 }
