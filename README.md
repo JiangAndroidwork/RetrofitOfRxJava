@@ -116,13 +116,52 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
 
  文件下载代码很简单：
  ```
-finalDownFiles = new FinalDownFiles(true,this,downUrl[0], Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+
-                "/test"+0 + ".apk",new FinalDownFileResult(){
+String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"
+        ,"http://d.ltss8.com/t/wandoujia-juwan1_ad.apk"};
+        finalDownFiles = new FinalDownFiles(true,this,downUrl[1],
+                Environment.getExternalStorageDirectory() + "/bjhj/accessory/izaodao_app2.apk",new FinalDownFileResult(){
             @Override
-            public void onStop() {
+            public void onSuccess(DownInfo downInfo) {
+                super.onSuccess(downInfo);
+                Log.i("成功==",downInfo.toString());
+            }
+
+            @Override
+            public void onCompleted() {
+                super.onCompleted();
+                Log.i("完成==","./...");
+            }
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                Log.i("开始==","./...");
+            }
+
+            @Override
+            public void onPause() {
+                super.onPause();
+                Log.i("暂停==","./...");
+            }
+
+            @Override
+            public void onStop(){
                 super.onStop();
                 Log.i("结束了一切","是的没错");
+            }
+            @Override
+            public void onLoading(long readLength, long countLength) {
+                super.onLoading(readLength, countLength);
+                Log.i("下载过程==",countLength+"");
+            }
+
+            @Override
+            public void onErroe(Throwable e) {
+                super.onErroe(e);
+                Log.i("错误===",e.toString());
             }
         });
 ```
 FinalDownFiles参数：1，是否显示弹窗进度条。2，上下文。3，文件的网络url。4，本地路径。5，成功回调。**当然构造方法也可以去掉最后一个参数。**
+FinalDownFiles的重写方法可以根据自己的需求添加。
+如果不想要弹窗那就设置第一个参数为false,然后重写onLoading()方法自己去定义。

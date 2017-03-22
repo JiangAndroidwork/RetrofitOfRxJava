@@ -10,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
-import com.laojiang.retrofithttp.weight.downfilesutils.HttpService;
 import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
 import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
 import com.laojiang.retrofithttp.weight.downfilesutils.manage.HttpDownManager;
@@ -72,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void inidown() {
-        String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk",
-                "http://114.215.142.151/cloudfile/public/classfile/2017031713563149420/东京喰种01_20170317135631460.mp4"
+        String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"
         ,"http://d.ltss8.com/t/wandoujia-juwan1_ad.apk"};
         finalDownFiles = new FinalDownFiles(true,this,downUrl[1],
                 Environment.getExternalStorageDirectory() + "/bjhj/accessory/izaodao_app2.apk",new FinalDownFileResult(){
