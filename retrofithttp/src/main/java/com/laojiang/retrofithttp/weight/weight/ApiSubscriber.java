@@ -115,7 +115,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
         } else if (e instanceof ConnectException) {
             onError(MSG_NETWORK_ERROR,-2);
         } else if (e instanceof UnknownHostException) {
-            onError(MSG_NETWORK_CONNECTION_ERROR,-3);
+            onError(MSG_NETWORK_CONNECTION_ERROR,404);
         } else if (e instanceof SocketException) {
             onError(MSG_SERVER_ERROR,-4);
         } else if (e.getMessage()!=null){

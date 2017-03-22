@@ -16,7 +16,6 @@ import okhttp3.RequestBody;
 
 public class PushFileModel implements PushFileModleIN{
 
-
     private MultipartBody.Part part;
 
     @Override

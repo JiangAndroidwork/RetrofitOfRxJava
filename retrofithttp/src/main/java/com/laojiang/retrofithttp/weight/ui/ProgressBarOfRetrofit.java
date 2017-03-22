@@ -80,19 +80,30 @@ private String url;
         return progressBarOfRetrofit;
     }
 
-public static ProgressBarOfRetrofit getInstance(){
+    /**
+     * 单例模式
+     * @return
+     */
+    public static ProgressBarOfRetrofit getInstance(){
     if (progressBarOfRetrofit!=null) {
         return progressBarOfRetrofit;
     }
     return null;
 }
 
+    /**
+     * 开始获取数据
+     * @param isCache 是否缓存
+     */
     @Override
     public void setStart(boolean isCache) {
         RetrofitPresenter retrofitPresenter = new RetrofitPresenter(isCache, context, progressBarOfRetrofit.url, this);
         retrofitPresenter.getData();
     }
 
+    /**
+     * 显示弹窗
+     */
     @Override
     public void showProgressBar() {
         if (mDownloadDialog!=null){
@@ -104,9 +115,8 @@ public static ProgressBarOfRetrofit getInstance(){
         builder.setTitle(R.string.soft_updating);
         // 给下载对话框增加进度条
         final LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.dialog_softupdate_progress, null);
+        View v = inflater.inflate(R.layout.dialog_progress, null);
         mProgress = (ProgressBar) v.findViewById(R.id.update_progress);
-
         builder.setView(v);
         // 取消下载
         builder.setNegativeButton(R.string.soft_update_cancel, new DialogInterface.OnClickListener() {
@@ -124,6 +134,9 @@ public static ProgressBarOfRetrofit getInstance(){
         mDownloadDialog.show();
     }
 
+    /**
+     * 取消进度条
+     */
     @Override
     public void disMissProgressBar() {
         if (mDownloadDialog!=null){
@@ -132,6 +145,10 @@ public static ProgressBarOfRetrofit getInstance(){
         }
     }
 
+    /**
+     * 获取Retrofit并设置回调
+     * @param backService
+     */
     @Override
     public void setData(Retrofit backService) {
             callBack.callBack(backService);
