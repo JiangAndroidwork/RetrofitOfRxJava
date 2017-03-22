@@ -200,6 +200,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
         if (mDownloadDialog!=null){
             mDownloadDialog.dismiss();
         }
+        fileResult.onLoading(0,100);
         fileResult.onStop();
     }
 
