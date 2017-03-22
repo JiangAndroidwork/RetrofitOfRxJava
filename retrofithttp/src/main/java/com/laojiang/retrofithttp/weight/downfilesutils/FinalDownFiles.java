@@ -206,8 +206,10 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
     @Override
     public void updateProgress(long readLength, long countLength) {
         fileResult.onLoading(readLength,countLength);
-        mProgress.setMax((int) countLength);
-        mProgress.setProgress((int) readLength);
+        if (mProgress!=null) {
+            mProgress.setMax((int) countLength);
+            mProgress.setProgress((int) readLength);
+        }
         Log.i("正在下载==",readLength+"");
     }
 
