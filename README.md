@@ -17,7 +17,7 @@ allprojects {
 其次在mould的build.gradle中添加：
 ``` 
 dependencies {
-	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v1.7'
+	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v1.8'
 	}
 ``` 
 
@@ -43,7 +43,7 @@ json固定格式超类,并根据code判断是否请求成功然后返回结果�
 ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,url,new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
-                retrofit.create(RetrofitMethodsInterface.class)
+                retrofit.create(HttpService.class)
                         .getExamGetMyInfo("9969171b881c7f74c32558e11b86936f")
                         .delay(5, TimeUnit.SECONDS)
                         .map(new ApiFunction<List<GetInfo.ResultEntity>>())
@@ -92,7 +92,7 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
                 "http://sss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
                     @Override
                     public void callBack(Retrofit retrofit) {
-                        retrofit.create(RetrofitMethodsInterface.class)
+                        retrofit.create(HttpService.class)
                                 .uploadImage(uid,key,part)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
@@ -112,3 +112,19 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
         pBR.setProgressState(false);
         pBR.setStart(false);
 ```
+# 文件下载
+ 文件下载由于Service接口文件原因我就把它封装到了downfilesutils包里面，如要想要使用就需要把你这个包copy到你自己的工程里面去，**注意：因为省事就没有用代码去做进度条，直接用的布局文件，copy的时候记得加上相应的布局文件（R.layout.dialog_progress_down_file）**。
+ 文件下载代码很简单：
+ ```
+finalDownFiles = new FinalDownFiles(true,this,downUrl[0], Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+
+                "/test"+0 + ".apk",new FinalDownFileResult(){
+            @Override
+            public void onStop() {
+                super.onStop();
+                Log.i("结束了一切","是的没错");
+            }
+        });
+```
+FinalDownFiles参数：1，是否显示弹窗进度条。2，上下文。3，文件的网络url。4，本地路径。5，成功回调。**当然构造方法也可以去掉最后一个参数。**
+# 注意：
+v1.8版本 demo示例将service接口由RetrofitMethodsInterface.class 更改成了HttpService.class.
