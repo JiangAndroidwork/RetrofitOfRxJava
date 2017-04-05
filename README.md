@@ -165,3 +165,9 @@ String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"
 FinalDownFiles参数：1，是否显示弹窗进度条。2，上下文。3，文件的网络url。4，本地路径。5，成功回调。**当然构造方法也可以去掉最后一个参数。**
 FinalDownFiles的重写方法可以根据自己的需求添加。
 如果不想要弹窗那就设置第一个参数为false,然后重写onLoading()方法自己去定义。
+> FinalDownFiles的方法：
+> 1，setPause();//暂停
+> 2，setRestart();//继续下载
+> 3，setStop();//停止
+> 4，stopAll();//停止全部
+> 5,deleteDown();//删除下载
