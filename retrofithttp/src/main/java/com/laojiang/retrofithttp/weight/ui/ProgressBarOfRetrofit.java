@@ -66,6 +66,7 @@ private String url;
             throw new ApiException(-1,"路径必须以/结尾");
 
         }
+
         if (progressBarOfRetrofit==null) {
             synchronized (ProgressBarOfRetrofit.class) {
                 if (progressBarOfRetrofit == null) {

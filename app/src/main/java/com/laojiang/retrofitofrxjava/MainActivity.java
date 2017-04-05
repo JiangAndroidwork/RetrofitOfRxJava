@@ -72,9 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void inidown() {
         String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"
-        ,"http://d.ltss8.com/t/wandoujia-juwan1_ad.apk"};
+        ," http://114.215.142.151/cloudfile/public/classfile/2017031713444349420/学生信息批量导出_2017031713444350.xls"};
         finalDownFiles = new FinalDownFiles(true,this,downUrl[1],
-                Environment.getExternalStorageDirectory() + "/bjhj/accessory/izaodao_app2.apk",new FinalDownFileResult(){
+                Environment.getExternalStorageDirectory() + "/bjhj/accessory/2017031713444350.xls",new FinalDownFileResult(){
             @Override
             public void onSuccess(DownInfo downInfo) {
                 super.onSuccess(downInfo);

@@ -50,6 +50,7 @@ public class RetrofitHttp implements RHInterface{
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
+
     //回调接口
         backInterface.setCallBackService(retrofit);
 
