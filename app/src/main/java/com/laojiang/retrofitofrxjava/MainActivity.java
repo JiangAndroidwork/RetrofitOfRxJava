@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()){
             case R.id.bt_start:
                 btPause.setEnabled(true);
-                String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"};
+                String[] downUrl=new String[]{"http://dl.download.csdn.net/down11/20170503/2195972fbbe868b8c91b01533c324782.zip?response-content-disposition=attachment%3Bfilename%3D%22JDK1.6%20%E6%BA%90%E7%A0%81_%E5%85%A8%E5%8C%85%EF%BC%88%E5%8C%85%E5%90%ABsun%E5%8C%85%EF%BC%89.zip%22&OSSAccessKeyId=9q6nvzoJGowBj4q1&Expires=1493795832&Signature=oyfoO1O4A7j2frzGgdDqriy8f%2BI%3D"};
                 finalDownFiles = new FinalDownFiles(false,this,downUrl[0],
                         getOutUrlStr(),new FinalDownFileResult(){
                     @Override
@@ -180,6 +180,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onErroe(String message,int code) {
                         super.onErroe(message,code);
                         Log.i("出错==",message.toString()+"\n"+code);
+                        //当网络连接断开的时候 code为-5
+                        if (code==-5){
+                            finalDownFiles.setPause();
+                            btPause.setText("继续");
+                            isPause = true;
+                        }
                     }
 
                 });
