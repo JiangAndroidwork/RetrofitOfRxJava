@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.bt_start:
+                btPause.setEnabled(true);
                 String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"};
                 finalDownFiles = new FinalDownFiles(false,this,downUrl[0],
                         getOutUrlStr(),new FinalDownFileResult(){
@@ -172,8 +173,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void onCompleted() {
                         super.onCompleted();
                         btPause.setEnabled(false);
+                        finalDownFiles.setStop();
                     }
+
+                    @Override
+                    public void onErroe(String message,int code) {
+                        super.onErroe(message,code);
+                        Log.i("出错==",message.toString()+"\n"+code);
+                    }
+
                 });
+                DownInfo downInfo = finalDownFiles.getDownInfo();
+                downInfo.setConnectionTime(3);
                 break;
             case R.id.bt_pause:
                 if (isPause){

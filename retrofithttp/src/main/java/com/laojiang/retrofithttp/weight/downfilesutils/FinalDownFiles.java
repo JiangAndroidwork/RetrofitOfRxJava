@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
  * Created by Jiang on 2017/3/22 7:57.
  */
 
-public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implements OperaDownFileManage {
+public class FinalDownFiles extends HttpProgressOnNextListener<DownInfo> implements OperaDownFileManage {
     private HttpDownManager manager;
     private Context context;
     private AlertDialog mDownloadDialog;
@@ -39,14 +39,23 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
     private boolean isPause;
 
     /**
+     * 设置下载配置
+     * @return
+     */
+    public DownInfo getDownInfo() {
+        return downInfo;
+    }
+
+    /**
      * 构造方法
-     * @param isShow 是否显示弹窗
-     * @param context 上下文
+     *
+     * @param isShow     是否显示弹窗
+     * @param context    上下文
      * @param fileUrlStr 文件网络url
      * @param outUrlStr  输出本地路径
-     * @param fileResult  回调结果
+     * @param fileResult 回调结果
      */
-    public FinalDownFiles(boolean isShow,Context context,String fileUrlStr,String outUrlStr,FinalDownFileResult fileResult) {
+    public FinalDownFiles(boolean isShow, Context context, String fileUrlStr, String outUrlStr, FinalDownFileResult fileResult) {
         this.fileResult = fileResult;
         this.fileUrlStr = fileUrlStr;
         this.outUrlStr = outUrlStr;
@@ -61,13 +70,12 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
     }
 
     /**
-     *
      * @param isShow
      * @param context
      * @param outUrlStr
      * @param fileUrlStr
      */
-    public FinalDownFiles(boolean isShow,Context context, String outUrlStr, String fileUrlStr) {
+    public FinalDownFiles(boolean isShow, Context context, String outUrlStr, String fileUrlStr) {
         this.context = context;
         this.outUrlStr = outUrlStr;
         this.fileUrlStr = fileUrlStr;
@@ -87,7 +95,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
         //初始化信息
         downInfo = new DownInfo(fileUrlStr);
         File outFile = new File(outUrlStr);
-        if (!outFile.exists()){
+        if (!outFile.exists()) {
             try {
                 outFile.createNewFile();
             } catch (IOException e) {
@@ -101,12 +109,13 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
 
     /**
      * 初始化弹窗
+     *
      * @param context
      */
     private void initProgressBar(Context context) {
-        if (mDownloadDialog!=null){
+        if (mDownloadDialog != null) {
             mDownloadDialog.dismiss();
-            mDownloadDialog=null;
+            mDownloadDialog = null;
         }
         // 构造软件下载对话框
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -128,7 +137,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
 
                     field.setAccessible(true);
 
-                    field.set(dialog,true);//true表示要关闭
+                    field.set(dialog, true);//true表示要关闭
 
                 } catch (Exception e) {
 
@@ -160,26 +169,28 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
 
     @Override
     public void onStart() {
-        if (tvState!=null)
-        tvState.setText("开始");
+        if (tvState != null)
+            tvState.setText("开始");
 
         fileResult.onStart();
     }
 
     @Override
     public void onComplete() {
-    if (mDownloadDialog!=null){
-        mDownloadDialog.dismiss();
+        if (mDownloadDialog != null) {
+            mDownloadDialog.dismiss();
 
-    }
+        }
         fileResult.onCompleted();
     }
 
     @Override
-    public void onError(Throwable e) {
-        super.onError(e);
-        fileResult.onErroe(e);
-        if (mDownloadDialog!=null){
+    public void onError(String message,int code) {
+        super.onError(message,code);
+        fileResult.onErroe(message,code);
+
+
+        if (mDownloadDialog != null) {
             mDownloadDialog.dismiss();
         }
     }
@@ -188,25 +199,25 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
     public void onPuase() {
         super.onPuase();
         fileResult.onPause();
-        if (tvState!=null)
-        tvState.setText("暂停");
+        if (tvState != null)
+            tvState.setText("暂停");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.i("停止","...");
-        if (mDownloadDialog!=null){
+        Log.i("停止", "...");
+        if (mDownloadDialog != null) {
             mDownloadDialog.dismiss();
         }
-        fileResult.onLoading(0,100);
+        fileResult.onLoading(0, 100);
         fileResult.onStop();
     }
 
     @Override
     public void updateProgress(long readLength, long countLength) {
-        fileResult.onLoading(readLength,countLength);
-        if (mProgress!=null) {
+        fileResult.onLoading(readLength, countLength);
+        if (mProgress != null) {
             mProgress.setMax((int) countLength);
             mProgress.setProgress((int) readLength);
         }
@@ -225,7 +236,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
      */
     @Override
     public void setStop() {
-manager.stopDown(downInfo);
+        manager.stopDown(downInfo);
 
     }
 
@@ -242,13 +253,13 @@ manager.stopDown(downInfo);
      */
     @Override
     public void deleteDown() {
-manager.deleteDown(downInfo);
+        manager.deleteDown(downInfo);
     }
 
     @Override
     public void setRestart() {
-        if (downInfo!=null)
-        manager.startDown(downInfo);
+        if (downInfo != null)
+            manager.startDown(downInfo);
     }
 
 

@@ -15,6 +15,7 @@ public class HttpTimeException extends RuntimeException {
 
     public HttpTimeException(String detailMessage) {
         super(detailMessage);
+
     }
 
     /**

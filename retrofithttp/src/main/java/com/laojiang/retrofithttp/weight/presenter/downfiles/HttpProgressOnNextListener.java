@@ -33,9 +33,9 @@ public abstract class HttpProgressOnNextListener<T> {
     /**
      * 失败或者错误方法
      * 主动调用，更加灵活
-     * @param e
+     *
      */
-    public  void onError(Throwable e){
+    public  void onError(String message,int code){
 
     }
 

@@ -10,7 +10,7 @@ import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
 public  class FinalDownFileResult {
    public  void onSuccess(DownInfo downInfo){}
    public   void onCompleted(){}
-    public   void onErroe(Throwable e){}
+    public   void onErroe(String message,int code){}
     public  void onStart(){}
     public  void onPause(){}
     public void onStop(){}
