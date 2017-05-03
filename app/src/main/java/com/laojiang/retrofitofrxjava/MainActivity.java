@@ -2,6 +2,7 @@ package com.laojiang.retrofitofrxjava;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,19 +32,23 @@ import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private static final String STR_URL = "http://sss/cloudapi/teacher/";
     private HttpDownManager manager;
     private TextView textView;
-    private ProgressBar progressBar;
     private DownInfo apkApi;
     private ProgressBar progressBar2;
     private DownInfo apkApi2;
     private TextView textView2;
     private HttpDownManager manager2;
     private FinalDownFiles finalDownFiles;
+    private Button btDown;
+    private Button btPause;
+    private Button btStop;
+    private ProgressBar progressBar;
+    private boolean isPause;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,13 +57,14 @@ public class MainActivity extends AppCompatActivity {
 
         textView = (TextView) findViewById(R.id.textView);
         Button pushFIle = (Button) findViewById(R.id.push_file);
-        Button downFile = (Button) findViewById(R.id.down_file);
-        downFile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                inidown();
-            }
-        });
+        btDown = (Button) findViewById(R.id.bt_start);
+        btPause = (Button) findViewById(R.id.bt_pause);
+        btStop = (Button) findViewById(R.id.bt_end);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        btDown.setOnClickListener(this);
+        btPause.setOnClickListener(this);
+        btStop.setOnClickListener(this);
+
         pushFIle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,59 +76,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void inidown() {
-        String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"
-        ," http://114.215.142.151/cloudfile/public/classfile/2017031713444349420/学生信息批量导出_2017031713444350.xls"};
-        finalDownFiles = new FinalDownFiles(true,this,downUrl[1],
-                Environment.getExternalStorageDirectory() + "/bjhj/accessory/2017031713444350.xls",new FinalDownFileResult(){
-            @Override
-            public void onSuccess(DownInfo downInfo) {
-                super.onSuccess(downInfo);
-                Log.i("成功==",downInfo.toString());
-            }
-
-            @Override
-            public void onCompleted() {
-                super.onCompleted();
-                Log.i("完成==","./...");
-            }
-
-            @Override
-            public void onStart() {
-                super.onStart();
-                Log.i("开始==","./...");
-            }
-
-            @Override
-            public void onPause() {
-                super.onPause();
-                Log.i("暂停==","./...");
-            }
-
-            @Override
-            public void onStop(){
-                super.onStop();
-                Log.i("结束了一切","是的没错");
-            }
-            @Override
-            public void onLoading(long readLength, long countLength) {
-                super.onLoading(readLength, countLength);
-                Log.i("下载过程==",countLength+"");
-            }
-
-            @Override
-            public void onErroe(Throwable e) {
-                super.onErroe(e);
-                Log.i("错误===",e.toString());
-            }
-        });
-
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        HttpDownManager.getInstance().stopAllDown();
+        finalDownFiles.stopAll();
     }
 
     /**
@@ -196,4 +153,53 @@ public class MainActivity extends AppCompatActivity {
         ss.setStart(false);
 
         }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bt_start:
+                String[] downUrl=new String[]{"http://www.izaodao.com/app/izaodao_app.apk"};
+                finalDownFiles = new FinalDownFiles(false,this,downUrl[0],
+                        getOutUrlStr(),new FinalDownFileResult(){
+                    @Override
+                    public void onLoading(long readLength, long countLength) {
+                        super.onLoading(readLength, countLength);
+                        progressBar.setMax((int)countLength);
+                        progressBar.setProgress((int)readLength);
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        super.onCompleted();
+                        btPause.setEnabled(false);
+                    }
+                });
+                break;
+            case R.id.bt_pause:
+                if (isPause){
+                    btPause.setText("暂停");
+                    if (finalDownFiles!=null)
+                        finalDownFiles.setRestart();
+                    isPause = false;
+                }else {
+                    if (finalDownFiles!=null)
+                        finalDownFiles.setPause();
+                    btPause.setText("继续");
+                    isPause = true;
+                }
+                break;
+            case R.id.bt_end:
+                if (finalDownFiles!=null){
+                    finalDownFiles.setStop();
+                    btPause.setEnabled(false);
+                }
+                break;
+        }
+    }
+
+    @NonNull
+    private String getOutUrlStr() {
+        return Environment.getExternalStorageDirectory() + "/bjhj/accessory/izaodao_app.apk";
+    }
+
 }

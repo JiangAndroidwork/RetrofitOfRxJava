@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.laojiang.retrofithttp.R;
 import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
@@ -155,7 +154,7 @@ public class FinalDownFiles  extends HttpProgressOnNextListener<DownInfo> implem
 
     @Override
     public void onNext(DownInfo baseDownEntity) {
-        Toast.makeText(context,baseDownEntity.getSavePath(),Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context,baseDownEntity.getSavePath(),Toast.LENGTH_SHORT).show();
         fileResult.onSuccess(baseDownEntity);
     }
 

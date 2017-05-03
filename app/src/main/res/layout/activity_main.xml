@@ -28,10 +28,51 @@
         android:layout_marginTop="24dp"
         android:text="上传" />
 
-
-    <Button
-        android:id="@+id/down_file"
-        android:layout_width="117dp"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="下载文件" />
+        android:weightSum="2"
+        >
+        <TextView
+
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:weightSum="3"
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/bt_start"
+                android:text="下载"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/bt_pause"
+                android:text="暂停"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/bt_end"
+                android:text="结束"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
