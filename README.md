@@ -73,6 +73,8 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
 注意：new ApiFunction<T>()中的类型应该和service接口RetrofitMethodsInterface.class中的返回类型一致。
 ## 不对结果进行封装返回全部
    只需要将.map（new ApiFunction<T>（））去掉并将service接口中的类型更改成GetInfo即可
+	
+> 需要注意的就是接口文件中的泛型类型 应该与基类中的一致，要避免结构不一致的情况发生.
 # 带有进度条的文件上传
 ## 创建service接口
 ```
