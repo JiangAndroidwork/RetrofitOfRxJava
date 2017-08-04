@@ -17,7 +17,7 @@ allprojects {
 其次在mould的build.gradle中添加：
 ``` 
 dependencies {
-	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.4'
+	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.5'
 	}
 ``` 
 
@@ -40,7 +40,7 @@ json固定格式超类,并根据code判断是否请求成功然后返回结果�
  ``` 
 3,实现Http请求：
 ``` 
-ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,url,new RetrofitOfRxJavaCallBack() {
+RJRetrofitHttp ss = RJRetrofitHttp.load(this,url,new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitService.class)
@@ -61,8 +61,8 @@ ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,url,new Retrof
                             }
                         });
             }
-        });
-     ss.setStart(false);
+        }).start();
+     
 ``` 
 ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版本中对过程封装，只返回"result"的数据
 
@@ -88,7 +88,7 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
 ```
  final RequestBody uid= RequestBody.create(MediaType.parse("text/plain"), "72");
         final RequestBody key = RequestBody.create(MediaType.parse("text/plain"), "45ab2fbbdd5ac8aec951f219f33fb5cc");
-        ProgressBarOfRetrofit pBR = ProgressBarOfRetrofit.getInstance(this,
+        RJRetrofitHttp pBR = RJRetrofitHttp.load(this,
                 "http://sss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
                     @Override
                     public void callBack(Retrofit retrofit) {
@@ -108,9 +108,8 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
                                     }
                                 });
                     }
-                });
-        pBR.setProgressState(false);
-        pBR.setStart(false);
+                }).setProgressState(false).start();
+        
 ```
 # 文件下载
 
