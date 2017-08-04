@@ -110,9 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 });
                     }
-                });
-        pBR.setProgressState(false);
-        pBR.start(false);
+                }).setProgressState(false).start();
     }
 
     /**

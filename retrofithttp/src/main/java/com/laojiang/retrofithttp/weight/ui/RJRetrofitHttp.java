@@ -174,9 +174,9 @@ private String url;
      * 设置是否显示 进度条
      * @param isShow
      */
-    public void setProgressState(boolean isShow){
+    public RJRetrofitHttp setProgressState(boolean isShow){
         isShowprogress = isShow;
-
+return this;
     }
 
 }
