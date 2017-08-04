@@ -3,7 +3,7 @@ package com.laojiang.retrofithttp.weight.weight;
 import android.app.AlertDialog;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
-import com.laojiang.retrofithttp.weight.ui.ProgressBarOfRetrofit;
+import com.laojiang.retrofithttp.weight.ui.RJRetrofitHttp;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -66,7 +66,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
     }
 
     public void onFinally() {
-        AlertDialog alertDialog = ProgressBarOfRetrofit.getInstance().getmDownloadDialog();
+        AlertDialog alertDialog = RJRetrofitHttp.load().getmDownloadDialog();
         if (alertDialog!=null){
             alertDialog.dismiss();
             alertDialog=null;

@@ -19,10 +19,10 @@ import retrofit2.Retrofit;
  * Created by Jiang on 2017/3/9 8:26.
  */
 
-public  class ProgressBarOfRetrofit  implements PBRViewInterface {
+public  class RJRetrofitHttp implements PBRViewInterface {
     private  ProgressBar mProgress;
     private  AlertDialog mDownloadDialog;
-    private boolean isShowprogress = true;
+    private boolean isShowprogress = false;
 
     public AlertDialog getmDownloadDialog() {
         return mDownloadDialog;
@@ -33,13 +33,13 @@ public  class ProgressBarOfRetrofit  implements PBRViewInterface {
 private String url;
     private ProgressBarCancel progressBarCancel;
     private boolean isCache;//是否缓存
-    private static ProgressBarOfRetrofit progressBarOfRetrofit;
+    private static RJRetrofitHttp rjRetrofitHttp;
 
-    private ProgressBarOfRetrofit(){
+    private RJRetrofitHttp(){
 
     }
     private   static class SingleFactory{
-        public  static ProgressBarOfRetrofit progressBarOfRetrofit = new ProgressBarOfRetrofit();
+        public  static RJRetrofitHttp RJRetrofitHttp = new RJRetrofitHttp();
 
     }
 
@@ -59,7 +59,7 @@ private String url;
         isCache = cache;
     }
 
-    public static ProgressBarOfRetrofit getInstance(Context context,String url, RetrofitOfRxJavaCallBack callBack){
+    public static RJRetrofitHttp load(Context context, String url, RetrofitOfRxJavaCallBack callBack){
         char c = url.charAt(url.length() - 1);
 
         if (!(c+"").equals("/")){
@@ -67,27 +67,28 @@ private String url;
 
         }
 
-        if (progressBarOfRetrofit==null) {
-            synchronized (ProgressBarOfRetrofit.class) {
-                if (progressBarOfRetrofit == null) {
-                    progressBarOfRetrofit = SingleFactory.progressBarOfRetrofit;
+        if (rjRetrofitHttp ==null) {
+            synchronized (RJRetrofitHttp.class) {
+                if (rjRetrofitHttp == null) {
+                    rjRetrofitHttp = SingleFactory.RJRetrofitHttp;
                 }
             }
 
         }
-        progressBarOfRetrofit.setCallBack(callBack);
-        progressBarOfRetrofit.setUrl(url);
-        progressBarOfRetrofit.setContext(context);
-        return progressBarOfRetrofit;
+        rjRetrofitHttp.setCallBack(callBack);
+        rjRetrofitHttp.setUrl(url);
+        rjRetrofitHttp.setContext(context);
+
+        return rjRetrofitHttp;
     }
 
     /**
      * 单例模式
      * @return
      */
-    public static ProgressBarOfRetrofit getInstance(){
-    if (progressBarOfRetrofit!=null) {
-        return progressBarOfRetrofit;
+    public static RJRetrofitHttp load(){
+    if (rjRetrofitHttp !=null) {
+        return rjRetrofitHttp;
     }
     return null;
 }
@@ -97,11 +98,16 @@ private String url;
      * @param isCache 是否缓存
      */
     @Override
-    public void setStart(boolean isCache) {
-        RetrofitPresenter retrofitPresenter = new RetrofitPresenter(isCache, context, progressBarOfRetrofit.url, this);
+    public RJRetrofitHttp start(boolean isCache) {
+        RetrofitPresenter retrofitPresenter = new RetrofitPresenter(isCache, context, rjRetrofitHttp.url, this);
         retrofitPresenter.getData();
+        return this;
     }
-
+    public RJRetrofitHttp start() {
+        RetrofitPresenter retrofitPresenter = new RetrofitPresenter(false, context, rjRetrofitHttp.url, this);
+        retrofitPresenter.getData();
+        return this;
+    }
     /**
      * 显示弹窗
      */

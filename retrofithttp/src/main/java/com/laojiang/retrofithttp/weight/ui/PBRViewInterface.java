@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
  */
 
 public interface PBRViewInterface  {
-    void setStart(boolean isCache);
+    RJRetrofitHttp start(boolean isCache);
     void showProgressBar();
     void disMissProgressBar();
     void setData(Retrofit backService);

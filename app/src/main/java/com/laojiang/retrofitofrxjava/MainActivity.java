@@ -14,7 +14,7 @@ import com.laojiang.retrofithttp.weight.downfilesutils.FinalDownFiles;
 import com.laojiang.retrofithttp.weight.downfilesutils.action.FinalDownFileResult;
 import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.DownInfo;
 import com.laojiang.retrofithttp.weight.downfilesutils.manage.HttpDownManager;
-import com.laojiang.retrofithttp.weight.ui.ProgressBarOfRetrofit;
+import com.laojiang.retrofithttp.weight.ui.RJRetrofitHttp;
 import com.laojiang.retrofithttp.weight.ui.RetrofitOfRxJavaCallBack;
 import com.laojiang.retrofithttp.weight.ui.pushfile.PushFileManage;
 import com.laojiang.retrofithttp.weight.weight.ApiSubscriber;
@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -86,47 +85,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 上传文件
      */
     private void initPush() {
-        final PushFileManage pushFileManage = new PushFileManage(this,new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"),"file","image/jpg");
+        final PushFileManage pushFileManage = new PushFileManage(this, new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"), "file", "image/jpg");
         final MultipartBody.Part part = pushFileManage.pushFileBackPart();
 
-        final RequestBody uid= RequestBody.create(MediaType.parse("text/plain"), "72");
+        final RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), "72");
         final RequestBody key = RequestBody.create(MediaType.parse("text/plain"), "45ab2fbbdd5ac8aec951f219f33fb5cc");
-        ProgressBarOfRetrofit pBR = ProgressBarOfRetrofit.getInstance(this,
+        RJRetrofitHttp pBR = RJRetrofitHttp.load(this,
                 "http://sss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
                     @Override
                     public void callBack(Retrofit retrofit) {
                         retrofit.create(RetrofitService.class)
-                                .uploadImage(uid,key,part)
+                                .uploadImage(uid, key, part)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(new ApiSubscriber<PushFileBean>() {
                                     @Override
                                     protected void onError(String msg, int code) {
-                                        Log.i("失败的信息==",msg);
+                                        Log.i("失败的信息==", msg);
                                     }
 
                                     @Override
                                     protected void onSuceess(PushFileBean pushFileBean) {
-                                Log.i("输出信息==",pushFileBean.toString());
+                                        Log.i("输出信息==", pushFileBean.toString());
                                     }
                                 });
                     }
                 });
         pBR.setProgressState(false);
-        pBR.setStart(false);
+        pBR.start(false);
     }
 
     /**
      * c37d4e1edf827e851d8aa9e4a7ff3059
-     *
-     *9969171b881c7f74c32558e11b86936f
+     * <p>
+     * 9969171b881c7f74c32558e11b86936f
      * https://api.douban.com/v2/movie/
-     *
-     *
      */
     private void init() {
 
-        ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,STR_URL,new RetrofitOfRxJavaCallBack() {
+        RJRetrofitHttp ss = RJRetrofitHttp.load(this, STR_URL, new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitService.class)
@@ -137,36 +134,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new ApiSubscriber<TestHomeWork>() {
                             @Override
-                            protected void onError(String msg,int code) {
-                                Log.i("错误==",msg.toString());
+                            protected void onError(String msg, int code) {
+                                Log.i("错误==", msg.toString());
                             }
 
                             @Override
                             protected void onSuceess(TestHomeWork testHomeWork) {
-                                Log.i("输出数据--",testHomeWork.toString());
+                                Log.i("输出数据--", testHomeWork.toString());
                             }
                         });
 
             }
-        });
-        ss.setProgressState(false);
-        ss.setStart(false);
+        }).start();
 
-        }
+    }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bt_start:
                 btPause.setEnabled(true);
-                String[] downUrl=new String[]{"http://dl.download.csdn.net/down11/20170503/2195972fbbe868b8c91b01533c324782.zip?response-content-disposition=attachment%3Bfilename%3D%22JDK1.6%20%E6%BA%90%E7%A0%81_%E5%85%A8%E5%8C%85%EF%BC%88%E5%8C%85%E5%90%ABsun%E5%8C%85%EF%BC%89.zip%22&OSSAccessKeyId=9q6nvzoJGowBj4q1&Expires=1493795832&Signature=oyfoO1O4A7j2frzGgdDqriy8f%2BI%3D"};
-                finalDownFiles = new FinalDownFiles(false,this,downUrl[0],
-                        getOutUrlStr(),new FinalDownFileResult(){
+                String[] downUrl = new String[]{"http://dl.download.csdn.net/down11/20170503/2195972fbbe868b8c91b01533c324782.zip?response-content-disposition=attachment%3Bfilename%3D%22JDK1.6%20%E6%BA%90%E7%A0%81_%E5%85%A8%E5%8C%85%EF%BC%88%E5%8C%85%E5%90%ABsun%E5%8C%85%EF%BC%89.zip%22&OSSAccessKeyId=9q6nvzoJGowBj4q1&Expires=1493795832&Signature=oyfoO1O4A7j2frzGgdDqriy8f%2BI%3D"};
+                finalDownFiles = new FinalDownFiles(false, this, downUrl[0],
+                        getOutUrlStr(), new FinalDownFileResult() {
                     @Override
                     public void onLoading(long readLength, long countLength) {
                         super.onLoading(readLength, countLength);
-                        progressBar.setMax((int)countLength);
-                        progressBar.setProgress((int)readLength);
+                        progressBar.setMax((int) countLength);
+                        progressBar.setProgress((int) readLength);
                     }
 
                     @Override
@@ -177,11 +172,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     @Override
-                    public void onErroe(String message,int code) {
-                        super.onErroe(message,code);
-                        Log.i("出错==",message.toString()+"\n"+code);
+                    public void onErroe(String message, int code) {
+                        super.onErroe(message, code);
+                        Log.i("出错==", message.toString() + "\n" + code);
                         //当网络连接断开的时候 code为-5
-                        if (code==-5){
+                        if (code == -5) {
                             finalDownFiles.setPause();
                             btPause.setText("继续");
                             isPause = true;
@@ -193,20 +188,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 downInfo.setConnectionTime(3);
                 break;
             case R.id.bt_pause:
-                if (isPause){
+                if (isPause) {
                     btPause.setText("暂停");
-                    if (finalDownFiles!=null)
+                    if (finalDownFiles != null)
                         finalDownFiles.setRestart();
                     isPause = false;
-                }else {
-                    if (finalDownFiles!=null)
+                } else {
+                    if (finalDownFiles != null)
                         finalDownFiles.setPause();
                     btPause.setText("继续");
                     isPause = true;
                 }
                 break;
             case R.id.bt_end:
-                if (finalDownFiles!=null){
+                if (finalDownFiles != null) {
                     finalDownFiles.setStop();
                     btPause.setEnabled(false);
                 }

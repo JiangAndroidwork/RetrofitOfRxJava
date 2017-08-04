@@ -28,12 +28,10 @@ public interface RetrofitService {
     Flowable<TestBean> getRetrofitDatas(@Query("accessToken") String accessToken);
     @GET("top250")
     Flowable<TestHttp> getRetrofitData(@Query("start") int start, @Query("count") int count);
-
     @GET("examGetMyInfo")
     Flowable<BaseReponseResult<List<GetInfo.ResultEntity>>> getExamGetMyInfo(@Query("accessToken") String accessToken);
     @GET("getHomeworkClass")
     Flowable<TestHomeWork> getHomeWork(@Query("accessToken") String accessToken);
-
     /*上传文件*/
     @Multipart
     @POST("classalbumUpload")
