@@ -31,6 +31,10 @@ dependencies {
 ## 步骤：
 1,根据json格式利用GsonFormat插件生成基类，注意如果想要封装过程，只返回结果需要继承BaseReponseResult。BaseReponseResult是根据相应的
 json固定格式超类,并根据code判断是否请求成功然后返回结果。（注：如果想要全部返回数据就不需要集成BaseReponseResult）
+>如果要只返回结果 那么需要继承BaseReponseResult的话，接口文件中的泛型要写成BaseReponseResult<List<GetInfo.ResultEntity>>这样，并且在请求数据的时候添加
+.map(new ApiFunction<List<GetInfo.ResultEntity>>())，如果想要全部返回数据 那就不用继承基类，并且不用添加.map(new ApiFunction<List<GetInfo.ResultEntity>>())代码。
+
+
 2,根据请求参数和url编写Retrofit的service接口，如：
 ``` 
  @GET("getGradeExams")
