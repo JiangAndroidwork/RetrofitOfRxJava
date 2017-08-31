@@ -12,7 +12,7 @@ public class BaseReponseResult<T>{
     public String toString() {
         return "BaseReponseResult{" +
                 "code='" + code + '\'' +
-                ", msg='" + msg + '\'' +
+                ", msg='" + message + '\'' +
                 '}';
     }
     private T result;
@@ -26,13 +26,13 @@ public class BaseReponseResult<T>{
     }
 
     private int code;
-    private String msg;
+    private String message;
     public String getMsg() {
-        return msg;
+        return message;
     }
 
     public void setMsg(String msg) {
-        this.msg = msg;
+        this.message = msg;
     }
 
     public int getCode() {
