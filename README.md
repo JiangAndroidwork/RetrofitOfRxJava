@@ -17,7 +17,7 @@ allprojects {
 其次在mould的build.gradle中添加：
 ``` 
 dependencies {
-	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:v2.4'
+	        compile 'com.github.JiangAndroidwork:RetrofitOfRxJava:2.5'
 	}
 ``` 
 
@@ -31,6 +31,10 @@ dependencies {
 ## 步骤：
 1,根据json格式利用GsonFormat插件生成基类，注意如果想要封装过程，只返回结果需要继承BaseReponseResult。BaseReponseResult是根据相应的
 json固定格式超类,并根据code判断是否请求成功然后返回结果。（注：如果想要全部返回数据就不需要集成BaseReponseResult）
+>如果要只返回结果 那么需要继承BaseReponseResult的话，接口文件中的泛型要写成BaseReponseResult<List<GetInfo.ResultEntity>>这样，并且在请求数据的时候添加
+.map(new ApiFunction<List<GetInfo.ResultEntity>>())，如果想要全部返回数据 那就不用继承基类，并且不用添加.map(new ApiFunction<List<GetInfo.ResultEntity>>())代码。
+
+
 2,根据请求参数和url编写Retrofit的service接口，如：
 ``` 
  @GET("getGradeExams")
@@ -40,7 +44,7 @@ json固定格式超类,并根据code判断是否请求成功然后返回结果�
  ``` 
 3,实现Http请求：
 ``` 
-ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,url,new RetrofitOfRxJavaCallBack() {
+RJRetrofitHttp ss = RJRetrofitHttp.load(this,url,new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitService.class)
@@ -61,14 +65,16 @@ ProgressBarOfRetrofit ss = ProgressBarOfRetrofit.getInstance(this,url,new Retrof
                             }
                         });
             }
-        });
-     ss.setStart(false);
+        }).start();
+     
 ``` 
 ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版本中对过程封装，只返回"result"的数据
 
 注意：new ApiFunction<T>()中的类型应该和service接口RetrofitMethodsInterface.class中的返回类型一致。
 ## 不对结果进行封装返回全部
    只需要将.map（new ApiFunction<T>（））去掉并将service接口中的类型更改成GetInfo即可
+	
+> 需要注意的就是接口文件中的泛型类型 应该与基类中的一致，要避免结构不一致的情况发生.
 # 带有进度条的文件上传
 ## 创建service接口
 ```
@@ -88,7 +94,7 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
 ```
  final RequestBody uid= RequestBody.create(MediaType.parse("text/plain"), "72");
         final RequestBody key = RequestBody.create(MediaType.parse("text/plain"), "45ab2fbbdd5ac8aec951f219f33fb5cc");
-        ProgressBarOfRetrofit pBR = ProgressBarOfRetrofit.getInstance(this,
+        RJRetrofitHttp pBR = RJRetrofitHttp.load(this,
                 "http://sss/cloudapi/teacher/", new RetrofitOfRxJavaCallBack() {
                     @Override
                     public void callBack(Retrofit retrofit) {
@@ -108,9 +114,8 @@ ss.setStart(false)中的参数是是否缓存请求，上面的例子是v1.3版�
                                     }
                                 });
                     }
-                });
-        pBR.setProgressState(false);
-        pBR.setStart(false);
+                }).setProgressState(false).start();
+        
 ```
 # 文件下载
 
