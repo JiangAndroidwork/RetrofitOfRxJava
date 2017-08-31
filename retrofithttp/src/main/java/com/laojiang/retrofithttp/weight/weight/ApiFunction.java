@@ -12,8 +12,8 @@ import io.reactivex.functions.Function;
 public class ApiFunction<T> implements Function<BaseReponseResult<T>,T> {
     @Override
     public T apply(BaseReponseResult<T> tBaseReponse) throws Exception {
-        if (!tBaseReponse.getCode().equals("1")){
-            throw new ApiException(Integer.parseInt(tBaseReponse.getCode()),tBaseReponse.getMsg());
+        if (tBaseReponse.getCode()!=1){
+            throw new ApiException(tBaseReponse.getCode(),tBaseReponse.getMsg());
         }
         return tBaseReponse.getResult();
     }

@@ -25,7 +25,7 @@ public class BaseReponseResult<T>{
         this.result = result;
     }
 
-    private String code;
+    private int code;
     private String msg;
     public String getMsg() {
         return msg;
@@ -35,11 +35,11 @@ public class BaseReponseResult<T>{
         this.msg = msg;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(int code) {
         this.code = code;
     }
 }

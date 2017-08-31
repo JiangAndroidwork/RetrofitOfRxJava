@@ -89,6 +89,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
                 msg = String.format(Locale.CHINA, "出错了！错误代码：%d", ((ApiException) e).getCode());
             }
 
+
             onError(msg,code);
         } else if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;

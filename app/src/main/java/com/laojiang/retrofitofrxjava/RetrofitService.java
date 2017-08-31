@@ -36,4 +36,6 @@ public interface RetrofitService {
     @Multipart
     @POST("classalbumUpload")
     Flowable<PushFileBean> uploadImage(@Part("albumId") RequestBody albumId, @Part("accessToken") RequestBody accessToken, @Part MultipartBody.Part file);
+
+
 }
