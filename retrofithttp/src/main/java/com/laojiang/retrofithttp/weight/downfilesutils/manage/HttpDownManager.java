@@ -1,5 +1,6 @@
 package com.laojiang.retrofithttp.weight.downfilesutils.manage;
 
+import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.laojiang.retrofithttp.weight.downfilesutils.HttpService;
 import com.laojiang.retrofithttp.weight.downfilesutils.downfiles.ApiDownSubscriber;
@@ -87,7 +88,7 @@ public class HttpDownManager {
 
             Retrofit retrofit = new Retrofit.Builder()
                     .client(builder.build())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(new Gson()))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(info.getBaseUrl())
                     .build();

@@ -3,6 +3,7 @@ package com.laojiang.retrofithttp.weight.model;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
@@ -47,7 +48,7 @@ public class RetrofitHttp implements RHInterface{
         Retrofit retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
                 .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
