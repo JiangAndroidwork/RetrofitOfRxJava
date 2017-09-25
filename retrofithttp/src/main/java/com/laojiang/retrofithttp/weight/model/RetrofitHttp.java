@@ -2,15 +2,19 @@ package com.laojiang.retrofithttp.weight.model;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -23,26 +27,46 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by Jiang on 2017/3/9 9:11.
  */
 
-public class RetrofitHttp implements RHInterface{
+public class RetrofitHttp implements RHInterface {
     private Context mContext;
     private static final long DEFAULT_TIMEOUT = 5;
 
     @Override
-    public void getHttpData(boolean isCache,final Context context, RetrofitCallBackInterface backInterface, String url) {
+    public void getHttpData(boolean isCache, final Context context, RetrofitCallBackInterface backInterface, String url) {
         this.mContext = context;
+
+        OkHttpClient mHttpClient = new OkHttpClient();
+
+        Request request = new Request.Builder().url(url)
+                .build();
+        mHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//成功获取数据
+                if (response.isSuccessful()){
+                    String json = response.body().toString();
+                    Log.i("RetrofitHttp", "onResponse() returned: " + json);
+                }
+            }
+        });
         File httpCacheDirectory = new File(context.getCacheDir(), "responses");
         int cacheSize = 10 * 1024 * 1024; // 10 M
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
 
         //手动创建一个OkHttpClient并设置超时时间
-
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
         //判断是否设置缓存
-                if(isCache){
-                    httpClientBuilder.addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR);
-                    httpClientBuilder.cache(cache);
-                }
-                httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+        if (isCache) {
+            httpClientBuilder.addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR);
+            httpClientBuilder.cache(cache);
+        }
+
+
+        OkHttpClient build = httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .build();
         //Retrofit加载http
         Retrofit retrofit = new Retrofit.Builder()
@@ -52,7 +76,7 @@ public class RetrofitHttp implements RHInterface{
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
-    //回调接口
+        //回调接口
         backInterface.setCallBackService(retrofit);
 
     }

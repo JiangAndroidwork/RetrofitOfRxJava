@@ -1,6 +1,7 @@
 package com.laojiang.retrofitofrxjava;
 
 import com.laojiang.retrofithttp.weight.bean.BaseReponseResult;
+import com.laojiang.retrofitofrxjava.bean.ESLoginBean;
 import com.laojiang.retrofitofrxjava.bean.GetInfo;
 import com.laojiang.retrofitofrxjava.bean.PushFileBean;
 import com.laojiang.retrofitofrxjava.bean.TestBean;
@@ -36,6 +37,7 @@ public interface RetrofitService {
     @Multipart
     @POST("classalbumUpload")
     Flowable<PushFileBean> uploadImage(@Part("albumId") RequestBody albumId, @Part("accessToken") RequestBody accessToken, @Part MultipartBody.Part file);
-
+    @POST("common/login")
+    Flowable<BaseReponseResult<ESLoginBean.ResultEntity>> esLogin(@Query("username") String username, @Query("password") String password);
 
 }

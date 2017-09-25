@@ -1,7 +1,6 @@
 package com.laojiang.retrofithttp.weight.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.laojiang.retrofithttp.weight.model.RetrofitCallBackInterface;
 import com.laojiang.retrofithttp.weight.model.RetrofitHttp;
@@ -33,7 +32,6 @@ public class RetrofitPresenter implements RPInterface, RetrofitCallBackInterface
      */
     @Override
     public void getData() {
-        Log.i("状态栏显示状态==",uiInterface.isShowProgress()+"");
         if (uiInterface.isShowProgress()){
             uiInterface.showProgressBar();
         }

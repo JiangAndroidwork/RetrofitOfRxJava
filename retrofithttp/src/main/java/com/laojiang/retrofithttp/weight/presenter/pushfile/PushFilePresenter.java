@@ -16,33 +16,32 @@ import okhttp3.MultipartBody;
  * Created by Jiang on 2017/3/20 9:54.
  */
 
-public class PushFilePresenter  implements PushFilePresenterIN, PushFileModelBackData {
+public class PushFilePresenter implements PushFilePresenterIN, PushFileModelBackData {
     private PushFileModel pushFileModel = new PushFileModel();
-private PushFileInterface pushFileInterface;
+    private PushFileInterface pushFileInterface;
     private final ProgressBar progress;
 
-    public PushFilePresenter(PushFileInterface pushFileInterface){
+    public PushFilePresenter(PushFileInterface pushFileInterface) {
         this.pushFileInterface = pushFileInterface;
-        pushFileInterface.showProgress();
         progress = pushFileInterface.getProgress();
     }
 
 
     @Override
     public MultipartBody.Part startModel(File file, String request, MediaType mediaType) {
-        pushFileModel.setRequestBody(file,mediaType,request,this);
+        pushFileModel.setRequestBody(file, mediaType, request, this);
         MultipartBody.Part part = pushFileModel.getMultipartBodyPart();
         return part;
     }
 
     @Override
     public void getProgressState(long currentBytesCount, long totalBytesCount) {
-       if (progress!=null){
-           progress.setMax((int)totalBytesCount);
-           progress.setProgress((int)currentBytesCount);
-       }
-       if (currentBytesCount>=totalBytesCount){
-           pushFileInterface.dissmissProgress();
-       }
+        if (progress != null) {
+            progress.setMax((int) totalBytesCount);
+            progress.setProgress((int) currentBytesCount);
+        }
+        if (currentBytesCount >= totalBytesCount) {
+            pushFileInterface.dissmissProgress();
+        }
     }
 }

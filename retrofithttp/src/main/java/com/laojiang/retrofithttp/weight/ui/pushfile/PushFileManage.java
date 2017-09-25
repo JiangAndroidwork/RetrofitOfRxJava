@@ -20,35 +20,37 @@ import okhttp3.MultipartBody;
  * Created by Jiang on 2017/3/20 9:44.
  */
 
-public class PushFileManage implements PushFileInterface{
+public class PushFileManage implements PushFileInterface {
 
-private Context context;
+    private Context context;
     private AlertDialog mDownloadDialog;
     private ProgressBar mProgress;
     private final PushFilePresenter pushFilePresenter;
-private File file;
+    private File file;
     private String request;
     private String fileType;
-    public PushFileManage(Context context, File file,String request,String fileType) {
+    private boolean isShowProgress = false;//
+
+    public PushFileManage(Context context,boolean isShowProgress, File file, String request, String fileType) {
+        this.isShowProgress = isShowProgress;
         this.file = file;
         this.request = request;
-        this. fileType = fileType;
+        this.fileType = fileType;
         this.context = context;
-        showProgress();
+        if (isShowProgress){
+            showProgress();
+        }
         pushFilePresenter = new PushFilePresenter(this);
-
-
     }
-
     @Override
     public void showProgress() {
-        if (mDownloadDialog !=null){
+        if (mDownloadDialog != null) {
             mDownloadDialog.dismiss();
-            mDownloadDialog =null;
+            mDownloadDialog = null;
         }
         // 构造软件下载对话框
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.soft_updating);
+        builder.setTitle(R.string.soft_updating_file);
         // 给下载对话框增加进度条
         final LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_softupdate_progress, null);
@@ -60,30 +62,33 @@ private File file;
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-
             }
         });
         mDownloadDialog = builder.create();
         mDownloadDialog.setCanceledOnTouchOutside(false);
-
-
-
         mDownloadDialog.show();
     }
 
     @Override
     public void dissmissProgress() {
-        if (mDownloadDialog!=null)
-        mDownloadDialog.dismiss();
+        if (mDownloadDialog != null)
+            mDownloadDialog.dismiss();
+    }
+
+    @Override
+    public boolean isShowProgress() {
+        return isShowProgress;
     }
 
     @Override
     public ProgressBar getProgress() {
         return mProgress;
     }
-    /**     开始
-     *    discrete-type := "text" / "image" / "audio" / "video" /application" / extension-token
-     *     for exsample:image/jpeg
+
+    /**
+     * 开始
+     * discrete-type := "text" / "image" / "audio" / "video" /application" / extension-token
+     * for exsample:image/jpeg
      */
     @Override
     public MultipartBody.Part pushFileBackPart() {

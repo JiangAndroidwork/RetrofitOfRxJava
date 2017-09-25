@@ -17,15 +17,16 @@ import com.laojiang.retrofithttp.weight.downfilesutils.manage.HttpDownManager;
 import com.laojiang.retrofithttp.weight.ui.RJRetrofitHttp;
 import com.laojiang.retrofithttp.weight.ui.RetrofitOfRxJavaCallBack;
 import com.laojiang.retrofithttp.weight.ui.pushfile.PushFileManage;
+import com.laojiang.retrofithttp.weight.weight.ApiFunction;
 import com.laojiang.retrofithttp.weight.weight.ApiSubscriber;
+import com.laojiang.retrofitofrxjava.bean.ESLoginBean;
 import com.laojiang.retrofitofrxjava.bean.PushFileBean;
-import com.laojiang.retrofitofrxjava.bean.TestHomeWork;
 
 import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -35,7 +36,7 @@ import retrofit2.Retrofit;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private static final String STR_URL = "http://sss/cloudapi/teacher/";
+    private static final String STR_URL = "http://www.meetyuu.com/mobileServer/";
     private HttpDownManager manager;
     private TextView textView;
     private DownInfo apkApi;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 initPush();
             }
         });
-//        init();
+        init();
     }
 
 
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 上传文件
      */
     private void initPush() {
-        final PushFileManage pushFileManage = new PushFileManage(this, new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"), "file", "image/jpg");
+        final PushFileManage pushFileManage = new PushFileManage(this, true, new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"), "file", "image/jpg");
         final MultipartBody.Part part = pushFileManage.pushFileBackPart();
 
         final RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), "72");
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     }
                                 });
                     }
-                }).setProgressState(false).start();
+                }).start();
     }
 
     /**
@@ -125,23 +126,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitService.class)
-                        .getHomeWork("9969171b881c7f74c32558e11b86936f")
-                        .delay(5, TimeUnit.SECONDS)
-//                       .map(new ApiFunction<List<TestHomeWork.ResultEntity>>())
+                        .esLogin("jianghongli", "123456")
+                        .map(new ApiFunction<ESLoginBean.ResultEntity>())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new ApiSubscriber<TestHomeWork>() {
+                        .subscribe(new ApiSubscriber<ESLoginBean.ResultEntity>() {
                             @Override
                             protected void onError(String msg, int code) {
-                                Log.i("错误==", msg.toString());
+
                             }
 
                             @Override
-                            protected void onSuceess(TestHomeWork testHomeWork) {
-                                Log.i("输出数据--", testHomeWork.toString());
+                            protected void onSuceess(ESLoginBean.ResultEntity resultEntity) {
+                                Log.i("登录成功==", resultEntity.toString());
                             }
                         });
-
+                Call.Factory factory = retrofit.callFactory();
             }
         }).start();
 

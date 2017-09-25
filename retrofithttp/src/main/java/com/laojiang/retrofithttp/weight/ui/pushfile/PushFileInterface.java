@@ -11,7 +11,10 @@ import okhttp3.MultipartBody;
 
 public interface PushFileInterface {
     void showProgress();
+
     void dissmissProgress();
-     ProgressBar getProgress();
+    boolean isShowProgress();
+    ProgressBar getProgress();
+
     MultipartBody.Part pushFileBackPart();
 }

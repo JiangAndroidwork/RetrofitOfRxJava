@@ -19,9 +19,9 @@ import retrofit2.Retrofit;
  * Created by Jiang on 2017/3/9 8:26.
  */
 
-public  class RJRetrofitHttp implements PBRViewInterface {
-    private  ProgressBar mProgress;
-    private  AlertDialog mDownloadDialog;
+public class RJRetrofitHttp implements PBRViewInterface {
+    private ProgressBar mProgress;
+    private AlertDialog mDownloadDialog;
     private boolean isShowprogress = false;
 
     public AlertDialog getmDownloadDialog() {
@@ -30,16 +30,17 @@ public  class RJRetrofitHttp implements PBRViewInterface {
 
     private Context context;
     private RetrofitOfRxJavaCallBack callBack;
-private String url;
+    private String url;
     private ProgressBarCancel progressBarCancel;
     private boolean isCache;//是否缓存
     private static RJRetrofitHttp rjRetrofitHttp;
 
-    private RJRetrofitHttp(){
+    private RJRetrofitHttp() {
 
     }
-    private   static class SingleFactory{
-        public  static RJRetrofitHttp RJRetrofitHttp = new RJRetrofitHttp();
+
+    private static class SingleFactory {
+        public static RJRetrofitHttp RJRetrofitHttp = new RJRetrofitHttp();
 
     }
 
@@ -59,15 +60,15 @@ private String url;
         isCache = cache;
     }
 
-    public static RJRetrofitHttp load(Context context, String url, RetrofitOfRxJavaCallBack callBack){
+    public static RJRetrofitHttp load(Context context, String url, RetrofitOfRxJavaCallBack callBack) {
         char c = url.charAt(url.length() - 1);
 
-        if (!(c+"").equals("/")){
-            throw new ApiException(-1,"路径必须以/结尾");
+        if (!(c + "").equals("/")) {
+            throw new ApiException(-1, "路径必须以/结尾");
 
         }
 
-        if (rjRetrofitHttp ==null) {
+        if (rjRetrofitHttp == null) {
             synchronized (RJRetrofitHttp.class) {
                 if (rjRetrofitHttp == null) {
                     rjRetrofitHttp = SingleFactory.RJRetrofitHttp;
@@ -84,17 +85,19 @@ private String url;
 
     /**
      * 单例模式
+     *
      * @return
      */
-    public static RJRetrofitHttp load(){
-    if (rjRetrofitHttp !=null) {
-        return rjRetrofitHttp;
+    public static RJRetrofitHttp load() {
+        if (rjRetrofitHttp != null) {
+            return rjRetrofitHttp;
+        }
+        return null;
     }
-    return null;
-}
 
     /**
      * 开始获取数据
+     *
      * @param isCache 是否缓存
      */
     @Override
@@ -103,23 +106,25 @@ private String url;
         retrofitPresenter.getData();
         return this;
     }
+
     public RJRetrofitHttp start() {
         RetrofitPresenter retrofitPresenter = new RetrofitPresenter(false, context, rjRetrofitHttp.url, this);
         retrofitPresenter.getData();
         return this;
     }
+
     /**
      * 显示弹窗
      */
     @Override
     public void showProgressBar() {
-        if (mDownloadDialog!=null){
+        if (mDownloadDialog != null) {
             mDownloadDialog.dismiss();
-            mDownloadDialog=null;
+            mDownloadDialog = null;
         }
         // 构造软件下载对话框
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.soft_updating);
+        builder.setTitle("正在加载...");
         // 给下载对话框增加进度条
         final LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_progress, null);
@@ -137,7 +142,6 @@ private String url;
         mDownloadDialog.setCanceledOnTouchOutside(false);
 
 
-
         mDownloadDialog.show();
     }
 
@@ -146,14 +150,15 @@ private String url;
      */
     @Override
     public void disMissProgressBar() {
-        if (mDownloadDialog!=null){
+        if (mDownloadDialog != null) {
             mDownloadDialog.dismiss();
-            mDownloadDialog=null;
+            mDownloadDialog = null;
         }
     }
 
     /**
      * 获取Retrofit并设置回调
+     *
      * @param backService
      */
     @Override
@@ -163,6 +168,7 @@ private String url;
 
     /**
      * 获取是否显示进度条的状态
+     *
      * @return
      */
     @Override
@@ -172,11 +178,12 @@ private String url;
 
     /**
      * 设置是否显示 进度条
+     *
      * @param isShow
      */
-    public RJRetrofitHttp setProgressState(boolean isShow){
-        isShowprogress = isShow;
-return this;
-    }
+//    public RJRetrofitHttp setProgressState(boolean isShow) {
+//        isShowprogress = isShow;
+//        return this;
+//    }
 
 }

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">retrofithttp</string>
-    <string name="soft_updating">正在加载...</string>
+    <string name="soft_updating_file">正在上传...</string>
     <string name="soft_update_cancel" >取消</string>
 </resources>
