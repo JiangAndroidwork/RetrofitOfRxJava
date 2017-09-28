@@ -2,19 +2,15 @@ package com.laojiang.retrofithttp.weight.model;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -35,24 +31,7 @@ public class RetrofitHttp implements RHInterface {
     public void getHttpData(boolean isCache, final Context context, RetrofitCallBackInterface backInterface, String url) {
         this.mContext = context;
 
-        OkHttpClient mHttpClient = new OkHttpClient();
 
-        Request request = new Request.Builder().url(url)
-                .build();
-        mHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-//成功获取数据
-                if (response.isSuccessful()){
-                    String json = response.body().toString();
-                    Log.i("RetrofitHttp", "onResponse() returned: " + json);
-                }
-            }
-        });
         File httpCacheDirectory = new File(context.getCacheDir(), "responses");
         int cacheSize = 10 * 1024 * 1024; // 10 M
         Cache cache = new Cache(httpCacheDirectory, cacheSize);
