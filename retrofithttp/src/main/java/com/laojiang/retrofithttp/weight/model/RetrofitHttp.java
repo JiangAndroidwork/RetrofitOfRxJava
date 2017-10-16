@@ -38,14 +38,13 @@ public class RetrofitHttp implements RHInterface {
 
         //手动创建一个OkHttpClient并设置超时时间
         OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+
         //判断是否设置缓存
         if (isCache) {
             httpClientBuilder.addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR);
             httpClientBuilder.cache(cache);
         }
-
-
-        OkHttpClient build = httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+        httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .build();
         //Retrofit加载http
         Retrofit retrofit = new Retrofit.Builder()
@@ -54,7 +53,6 @@ public class RetrofitHttp implements RHInterface {
                 .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-
         //回调接口
         backInterface.setCallBackService(retrofit);
 

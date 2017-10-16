@@ -26,7 +26,6 @@ import java.io.File;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btStop;
     private ProgressBar progressBar;
     private boolean isPause;
+    private ApiSubscriber<ESLoginBean.ResultEntity> apiSubscriber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,27 +121,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * https://api.douban.com/v2/movie/
      */
     private void init() {
+        apiSubscriber = new ApiSubscriber<ESLoginBean.ResultEntity>() {
+            @Override
+            protected void onError(String msg, int code) {
 
+            }
+
+            @Override
+            protected void onSuceess(ESLoginBean.ResultEntity resultEntity) {
+                Log.i("登录成功==", resultEntity.toString());
+            }
+        };
+        apiSubscriber.cancel();
         RJRetrofitHttp ss = RJRetrofitHttp.load(this, STR_URL, new RetrofitOfRxJavaCallBack() {
             @Override
             public void callBack(Retrofit retrofit) {
                 retrofit.create(RetrofitService.class)
+
                         .esLogin("jianghongli", "123456")
                         .map(new ApiFunction<ESLoginBean.ResultEntity>())
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new ApiSubscriber<ESLoginBean.ResultEntity>() {
-                            @Override
-                            protected void onError(String msg, int code) {
+                        .subscribe(apiSubscriber);
 
-                            }
-
-                            @Override
-                            protected void onSuceess(ESLoginBean.ResultEntity resultEntity) {
-                                Log.i("登录成功==", resultEntity.toString());
-                            }
-                        });
-                Call.Factory factory = retrofit.callFactory();
             }
         }).start();
 

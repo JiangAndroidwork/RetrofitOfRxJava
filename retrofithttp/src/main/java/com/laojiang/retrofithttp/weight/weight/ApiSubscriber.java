@@ -38,18 +38,23 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
     private static final String MSG_BAD_REQUEST = "请求参数错误";
     private HttpException httpException;
 
-
+    private Subscription subscription;
     @Override
     public void onSubscribe(Subscription s) {
+        this.subscription = s;
         s.request(Long.MAX_VALUE);
+
     }
 
     @Override
     public void onNext(T t) {
-
         onSuceess(t);
     }
-
+    public void cancel(){
+        if (subscription!=null){
+            subscription.cancel();
+        }
+    }
 
 
     @Override
@@ -126,4 +131,5 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
 
     protected abstract void onError(String msg,int code);
     protected abstract void onSuceess(T t);
+
 }
