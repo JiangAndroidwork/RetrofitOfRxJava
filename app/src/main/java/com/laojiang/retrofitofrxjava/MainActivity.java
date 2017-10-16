@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initPush() {
         final PushFileManage pushFileManage = new PushFileManage(this, true, new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"), "file", "image/jpg");
+
         final MultipartBody.Part part = pushFileManage.pushFileBackPart();
 
         final RequestBody uid = RequestBody.create(MediaType.parse("text/plain"), "72");

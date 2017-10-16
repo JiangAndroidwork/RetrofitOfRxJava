@@ -30,7 +30,7 @@ public class PushFileManage implements PushFileInterface {
     private String request;
     private String fileType;
     private boolean isShowProgress = false;//
-
+    private CancelCallBack cancelListener;
     public PushFileManage(Context context,boolean isShowProgress, File file, String request, String fileType) {
         this.isShowProgress = isShowProgress;
         this.file = file;
@@ -62,6 +62,9 @@ public class PushFileManage implements PushFileInterface {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+                if (cancelListener!=null){
+                    cancelListener.onCancelListener();
+                }
             }
         });
         mDownloadDialog = builder.create();
@@ -93,5 +96,11 @@ public class PushFileManage implements PushFileInterface {
     @Override
     public MultipartBody.Part pushFileBackPart() {
         return pushFilePresenter.startModel(file, request, MediaType.parse(fileType));
+    }
+    public void setCancelListener(CancelCallBack cancelListener){
+        this.cancelListener = cancelListener;
+    }
+    public interface CancelCallBack{
+        void onCancelListener();
     }
 }
