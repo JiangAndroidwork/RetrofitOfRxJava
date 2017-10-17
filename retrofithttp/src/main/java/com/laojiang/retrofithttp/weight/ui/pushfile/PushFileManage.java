@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.laojiang.retrofithttp.R;
+import com.laojiang.retrofithttp.weight.model.pushfile.PushFileModelBackData;
 import com.laojiang.retrofithttp.weight.presenter.pushfile.PushFilePresenter;
 
 import java.io.File;
@@ -31,6 +32,7 @@ public class PushFileManage implements PushFileInterface {
     private String fileType;
     private boolean isShowProgress = false;//
     private CancelCallBack cancelListener;
+    private PushFileModelBackData listener;
     public PushFileManage(Context context,boolean isShowProgress, File file, String request, String fileType) {
         this.isShowProgress = isShowProgress;
         this.file = file;
@@ -73,10 +75,10 @@ public class PushFileManage implements PushFileInterface {
         builder.setNegativeButton(R.string.soft_update_cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
                 if (cancelListener!=null){
                     cancelListener.onCancelListener();
                 }
+                dialog.dismiss();
             }
         });
         mDownloadDialog = builder.create();
@@ -100,6 +102,14 @@ public class PushFileManage implements PushFileInterface {
         return mProgress;
     }
 
+    @Override
+    public PushFileModelBackData getProgressData() {
+        if (listener!=null){
+            return listener;
+        }
+        return null;
+    }
+
     /**
      * 开始
      * discrete-type := "text" / "image" / "audio" / "video" /application" / extension-token
@@ -109,7 +119,10 @@ public class PushFileManage implements PushFileInterface {
     public MultipartBody.Part pushFileBackPart() {
         return pushFilePresenter.startModel(file, request, MediaType.parse(fileType));
     }
-
+    //监听上传进度的回调
+    public void setProgressCallBack(PushFileModelBackData listener){
+        this.listener = listener;
+    }
     public interface CancelCallBack{
         void onCancelListener();
     }

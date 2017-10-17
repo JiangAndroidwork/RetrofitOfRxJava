@@ -2,6 +2,8 @@ package com.laojiang.retrofithttp.weight.ui.pushfile;
 
 import android.widget.ProgressBar;
 
+import com.laojiang.retrofithttp.weight.model.pushfile.PushFileModelBackData;
+
 import okhttp3.MultipartBody;
 
 /**
@@ -15,6 +17,6 @@ public interface PushFileInterface {
     void dissmissProgress();
     boolean isShowProgress();
     ProgressBar getProgress();
-
+    PushFileModelBackData getProgressData();//获取上传文件的进度 接口
     MultipartBody.Part pushFileBackPart();
 }

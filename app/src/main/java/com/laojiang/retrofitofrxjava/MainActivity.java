@@ -86,7 +86,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 上传文件
      */
     private void initPush() {
-        final PushFileManage pushFileManage = new PushFileManage(this, true, new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"), "file", "image/jpg");
+        final PushFileManage pushFileManage = new PushFileManage(this, true, new File("/storage/emulated/0/DCIM/Camera/IMG_20170202_094844.jpg"), "file", "image/jpg", new PushFileManage.CancelCallBack() {
+            @Override
+            public void onCancelListener() {
+                Log.i("执行了点击回调==","是的执行了");
+            }
+        });
 
         final MultipartBody.Part part = pushFileManage.pushFileBackPart();
 
