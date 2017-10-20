@@ -36,7 +36,11 @@ public class PushFilePresenter implements PushFilePresenterIN, PushFileModelBack
 
     @Override
     public void getProgressState(long currentBytesCount, long totalBytesCount) {
-        pushFileInterface.getProgressData().getProgressState(currentBytesCount, totalBytesCount);
+        PushFileModelBackData progressData = pushFileInterface.getProgressData();
+        if (progressData!=null){
+            progressData.getProgressState(currentBytesCount, totalBytesCount);
+        }
+
         if (progress != null) {
             progress.setMax((int) totalBytesCount);
             progress.setProgress((int) currentBytesCount);
