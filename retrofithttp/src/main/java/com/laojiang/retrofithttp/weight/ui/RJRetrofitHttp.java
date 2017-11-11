@@ -109,10 +109,16 @@ public class RJRetrofitHttp implements PBRViewInterface {
 
     public RJRetrofitHttp start() {
         RetrofitPresenter retrofitPresenter = new RetrofitPresenter(false, context, rjRetrofitHttp.url, this);
+
         retrofitPresenter.getData();
         return this;
     }
-
+    public RJRetrofitHttp start(long timeOut) {
+        RetrofitPresenter retrofitPresenter = new RetrofitPresenter(false, context, rjRetrofitHttp.url, this);
+        retrofitPresenter.setTimeOut(timeOut);
+        retrofitPresenter.getData();
+        return this;
+    }
     /**
      * 显示弹窗
      */

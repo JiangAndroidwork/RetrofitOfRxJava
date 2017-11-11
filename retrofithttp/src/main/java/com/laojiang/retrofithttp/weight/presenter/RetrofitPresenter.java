@@ -27,6 +27,9 @@ public class RetrofitPresenter implements RPInterface, RetrofitCallBackInterface
         this.uiInterface = uiInterface;
         this.isCache = isCache;
     }
+    public void setTimeOut(long timeOut){
+        retrofitHttp.setTimeOut(timeOut);
+    }
     /**
      * 获取数据
      */
@@ -35,6 +38,7 @@ public class RetrofitPresenter implements RPInterface, RetrofitCallBackInterface
         if (uiInterface.isShowProgress()){
             uiInterface.showProgressBar();
         }
+
         retrofitHttp.getHttpData(isCache,context,this,url);
     }
 

@@ -27,6 +27,17 @@ public class RetrofitHttp implements RHInterface {
     private Context mContext;
     private static final long DEFAULT_TIMEOUT = 5;
 
+    private long timeOut = 5;
+
+    public long getTimeOut() {
+
+        return timeOut;
+    }
+
+    public void setTimeOut(long timeOut) {
+        this.timeOut = timeOut;
+    }
+
     @Override
     public void getHttpData(boolean isCache, final Context context, RetrofitCallBackInterface backInterface, String url) {
         this.mContext = context;
@@ -44,7 +55,7 @@ public class RetrofitHttp implements RHInterface {
             httpClientBuilder.addInterceptor(REWRITE_CACHE_CONTROL_INTERCEPTOR);
             httpClientBuilder.cache(cache);
         }
-        httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+        httpClientBuilder.connectTimeout(timeOut, TimeUnit.SECONDS)
                 .build();
         //Retrofit加载http
         Retrofit retrofit = new Retrofit.Builder()
