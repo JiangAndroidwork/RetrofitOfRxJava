@@ -57,6 +57,7 @@ public class RetrofitHttp implements RHInterface {
         }
         httpClientBuilder.connectTimeout(timeOut, TimeUnit.SECONDS)
                 .build();
+        httpClientBuilder.readTimeout(timeOut,TimeUnit.SECONDS).build();
         //Retrofit加载http
         Retrofit retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
