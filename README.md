@@ -181,3 +181,7 @@ FinalDownFiles的重写方法可以根据自己的需求添加。
 4，stopAll();//停止全部
 
 5,deleteDown();//删除下载
+
+>版本更新：
+
+1,"4.1"版本：优化当code=1,result=null时返回的结果，返回onError(msg,code); code为-999，msg为请求结果为空。
