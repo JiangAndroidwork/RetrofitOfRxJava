@@ -14,7 +14,10 @@ public class ApiFunction<T> implements Function<BaseReponseResult<T>,T> {
     public T apply(BaseReponseResult<T> tBaseReponse) throws Exception {
         if (tBaseReponse.getCode()!=1){
             throw new ApiException(tBaseReponse.getCode(),tBaseReponse.getMsg());
+        }else if (tBaseReponse.getResult()==null){
+            throw new ApiException(tBaseReponse.getCode(),tBaseReponse.getMsg());
         }
+
         return tBaseReponse.getResult();
     }
 }

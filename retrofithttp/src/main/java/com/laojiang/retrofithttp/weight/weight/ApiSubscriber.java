@@ -27,6 +27,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
     private static final int HTTP_NOT_FOUND = 404;
     private static final int HTTP_TIMEOUT = 408;
     private static final int HTTP_INTERNAL_SERVER_ERROR = 500;
+    private static final int HTTP_RESULT_ISNULL = -999;
     //出错提示
     private static final String MSG_NETWORK_ERROR = "网络错误";
     private static final String MSG_NETWORK_CONNECTION_ERROR = "网络连接不可用，请检查或稍后重试";
@@ -36,6 +37,7 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
     private static final String MSG_NOT_FOUND = "访问的地址不存在";
     private static final String MSG_FORBIDDEN = "服务器拒绝请求";
     private static final String MSG_BAD_REQUEST = "请求参数错误";
+    private static final String MSG_RESULT_ISNULL = "请求结果为空";
     private HttpException httpException;
 
     private Subscription subscription;
@@ -94,8 +96,12 @@ public abstract class ApiSubscriber<T> implements Subscriber<T> {
                 msg = String.format(Locale.CHINA, "出错了！错误代码：%d", ((ApiException) e).getCode());
             }
 
+            if (code!=1){
+                onError(msg,code);
+            }else {//result为null的情况
+                onError(MSG_RESULT_ISNULL,HTTP_RESULT_ISNULL);
+            }
 
-            onError(msg,code);
         } else if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
 
